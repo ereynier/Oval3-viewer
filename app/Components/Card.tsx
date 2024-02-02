@@ -70,7 +70,9 @@ const Card = ({ id }: CardProps) => {
           </div>
         </CardBody>
       </CardContainer>
-      <Stats open={open} setOpen={setOpen} metadata={metadata.data} Card={additionals?.Card} />
+      {additionals?.Card && (
+        <Stats open={open} setOpen={setOpen} Card={additionals?.Card} />
+      )}
     </div>
   );
 }
