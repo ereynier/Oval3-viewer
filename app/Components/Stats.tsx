@@ -144,12 +144,12 @@ const Stats = ({ open, setOpen, Card }: StatsProps) => {
                                         <p className="md:text-lg text-md font-bold">{Number(stats?.data.minutes_played_total).toFixed(0) || 0}</p>
                                     </div>
                                     <div className="flex flex-col items-start justify-start gap-0 w-full h-full">
-                                        <p className="text-sm text-gray-500">Red cards</p>
-                                        <p className="md:text-lg text-md font-bold">{stats?.data.red_cards || 0}</p>
-                                    </div>
-                                    <div className="flex flex-col items-start justify-start gap-0 w-full h-full">
                                         <p className="text-sm text-gray-500">Yellow cards</p>
                                         <p className="md:text-lg text-md font-bold">{stats?.data.yellow_cards || 0}</p>
+                                    </div>
+                                    <div className="flex flex-col items-start justify-start gap-0 w-full h-full">
+                                        <p className="text-sm text-gray-500">Red cards</p>
+                                        <p className="md:text-lg text-md font-bold">{stats?.data.red_cards || 0}</p>
                                     </div>
                                     <div className="flex flex-col items-start justify-start gap-0 w-full h-full">
                                         <p className="text-sm text-gray-500">Tries</p>
