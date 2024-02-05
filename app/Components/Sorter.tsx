@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 
 import {
@@ -17,9 +18,9 @@ interface SorterProps {
 
 const Sorter = ({ setSortBy, toggleOrder }: SorterProps) => {
     return (
-        <div className="flex flex-row items-center justify-center gap-2">
+        <div className="flex flex-row items-center justify-center gap-2 w-full sm:w-fit">
         <Select onValueChange={ setSortBy }>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -29,7 +30,7 @@ const Sorter = ({ setSortBy, toggleOrder }: SorterProps) => {
                 <SelectItem value="score">Score</SelectItem>
             </SelectContent>
         </Select>
-        <Button variant={"ghost"} size={"icon"} onClick={() => toggleOrder()}>
+        <Button title='Toogle order' variant={"ghost"} size={"icon"} onClick={() => toggleOrder()}>
             <ArrowDownUp size={24} />
         </Button>
         </div>

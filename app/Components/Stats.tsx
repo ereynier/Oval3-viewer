@@ -1,12 +1,5 @@
 import React, { useEffect } from 'react'
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-
 
 import {
     Drawer,
@@ -19,7 +12,6 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer"
 import Image from 'next/image'
-import { ScrollArea } from "@/components/ui/scroll-area"
 
 
 interface StatsProps {
@@ -31,29 +23,6 @@ interface StatsProps {
 const Stats = ({ open, setOpen, Card }: StatsProps) => {
 
     const [stats, setStats] = React.useState<any>(null)
-
-    const data = [
-        {
-            score: 100,
-            name: "Impact"
-        },
-        {
-            score: 100,
-            name: "Attack"
-        },
-        {
-            score: 45,
-            name: "Defense"
-        },
-        {
-            score: 85,
-            name: "Skills"
-        },
-        {
-            score: 32,
-            name: "Strength"
-        },
-    ]
 
     useEffect(() => {
         fetch(`https://score.oval3.game/api/scoring/player/${Card.optaId}`)

@@ -1,0 +1,118 @@
+[
+    {
+        "name": "American Samoa",
+        "code": "ASM"
+    },
+    {
+        "name": "Argentina",
+        "code": "ARG"
+    },
+    {
+        "name": "Australia",
+        "code": "AUS"
+    },
+    {
+        "name": "Belgium",
+        "code": "BEL"
+    },
+    {
+        "name": "Cameroon",
+        "code": "CMR"
+    },
+    {
+        "name": "Canada",
+        "code": "CAN"
+    },
+    {
+        "name": "Chile",
+        "code": "CHL"
+    },
+    {
+        "name": "Cook Islands",
+        "code": "COK"
+    },
+    {
+        "name": "England",
+        "code": "ENG"
+    },
+    {
+        "name": "Fiji",
+        "code": "FJI"
+    },
+    {
+        "name": "France",
+        "code": "FRA"
+    },
+    {
+        "name": "Georgia",
+        "code": "GEO"
+    },
+    {
+        "name": "Ireland",
+        "code": "IRL"
+    },
+    {
+        "name": "Italy",
+        "code": "ITA"
+    },
+    {
+        "name": "Moldova, Republic of",
+        "code": "MDA"
+    },
+    {
+        "name": "Namibia",
+        "code": "NAM"
+    },
+    {
+        "name": "Netherlands",
+        "code": "NLD"
+    },
+    {
+        "name": "New Zealand",
+        "code": "NZL"
+    },
+    {
+        "name": "Portugal",
+        "code": "PRT"
+    },
+    {
+        "name": "Romania",
+        "code": "ROU"
+    },
+    {
+        "name": "Samoa",
+        "code": "WSM"
+    },
+    {
+        "name": "Scotland",
+        "code": "SCO"
+    },
+    {
+        "name": "South Africa",
+        "code": "ZAF"
+    },
+    {
+        "name": "Spain",
+        "code": "ESP"
+    },
+    {
+        "name": "Tonga",
+        "code": "TON"
+    },
+    {
+        "name": "United States",
+        "code": "USA"
+    },
+    {
+        "name": "Uruguay",
+        "code": "URY"
+    },
+    {
+        "name": "Wales",
+        "code": "WAL"
+    },
+    {
+        "name": "Zimbabwe",
+        "code": "ZWE"
+    }
+]

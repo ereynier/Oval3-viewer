@@ -1,8 +1,6 @@
 "use client"
-import Image from 'next/image'
 import React from 'react'
 import Card from './Card'
-import { Loader } from 'lucide-react'
 
 interface CardsProps {
     data: any
@@ -111,7 +109,7 @@ const Cards = ({ data, sortBy, order }: CardsProps) => {
     }
 
     return (
-        <div className='w-full h-full'>
+        <div className='w-full h-full mt-6'>
             <div className='w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-4 px-8 sm:px-12 md:px-24 lg:px-48 gap-12'>
                 {data && data?.tokens && metadatas && additionals && sortData(data).map((item: any, index: number) => (
                     <div key={index} className="">
