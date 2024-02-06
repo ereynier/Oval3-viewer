@@ -21,6 +21,10 @@ import Score from './FiltersComponents/Score'
 import Age from './FiltersComponents/Age'
 import Stats from './FiltersComponents/Stats'
 import Position from './FiltersComponents/Position'
+import Countries from './FiltersComponents/Countries'
+import Leagues from './FiltersComponents/Leagues'
+import CollapseProvider from '@/components/CollapseProvider'
+import { emptyFilters } from '@/utils/emptyFilters'
 
 interface FiltersProps {
     filters: any
@@ -28,6 +32,7 @@ interface FiltersProps {
 }
 
 const Filters = ({ setFilters, filters }: FiltersProps) => {
+
     return (
         <Sheet>
             <SheetTrigger className='flex flex-row gap-2 hover:bg-secondary rounded-lg border w-full sm:w-[180px] h-10 justify-between p-2 items-center'>
@@ -37,51 +42,48 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
             <SheetContent side={"left"} className='p-2 sm:p-4'>
                 <SheetHeader>
                     <SheetTitle>Filters</SheetTitle>
-                    <SheetDescription>
+                    <SheetDescription className='flex flex-col gap-1'>
                         {"Select the filters you want to apply"}
+                        <Button onClick={() => {setFilters({...emptyFilters})}} className='w-full mb-1' variant='secondary'>Reset filters</Button>
                     </SheetDescription>
                 </SheetHeader>
-                <ScrollArea className='h-full w-full p-0 pb-8'>
+                <ScrollArea className='h-full w-full p-0 pb-[80px]'>
                     <div className="flex flex-col items-start gap-4 justify-center my-4 p-1">
-                        <p>Reset filters (+ reset for each filter)</p>
-                        <div className="flex flex-col items-start justify-center gap-0 w-full sm:w-fit">
-                            <h3>Search player</h3>
+                        <CollapseProvider name="Name">
                             <Name filters={filters} setFilters={setFilters} />
-                        </div>
-                        <Separator />
-                        <div className="flex flex-col items-start justify-center gap-0 w-full sm:w-fit">
-                            <h3>Rarity</h3>
+                        </CollapseProvider>
+                        <Separator/>
+                        <CollapseProvider name="Rarity">
                             <Rarity filters={filters} setFilters={setFilters} />
-                        </div>
-                        <Separator />
-                        <div className="flex flex-col items-start justify-center gap-1 w-full sm:w-fit">
-                            <h3>Clubs</h3>
+                        </CollapseProvider>
+                        <Separator/>
+                        <CollapseProvider name="Clubs">
                             <Clubs filters={filters} setFilters={setFilters} />
-                        </div>
+                        </CollapseProvider>
                         <Separator />
-                        <div className="flex flex-col items-start justify-center gap-1 w-full sm:w-fit">
-                            <h3>Position</h3>
+                        <CollapseProvider name="Position">
                             <Position filters={filters} setFilters={setFilters} />
-                        </div>
+                        </CollapseProvider>
                         <Separator />
-                        <div className="flex flex-col items-start justify-center gap-1 w-full">
-                            <h3>Score</h3>
+                        <CollapseProvider name="Score">
                             <Score filters={filters} setFilters={setFilters} />
-                        </div>
+                        </CollapseProvider>
                         <Separator />
-                        <div className="flex flex-col items-start justify-center gap-1 w-full">
-                            <h3>Stats</h3>
+                        <CollapseProvider name="Stats">
                             <Stats filters={filters} setFilters={setFilters} />
-                        </div>
+                        </CollapseProvider>
                         <Separator />
-                        <div className="flex flex-col items-start justify-center gap-1 w-full">
-                            <h3>Age</h3>
+                        <CollapseProvider name="Age">
                             <Age filters={filters} setFilters={setFilters} />
-                        </div>
+                        </CollapseProvider>
                         <Separator />
-                        <p>League</p>
+                        <CollapseProvider name="Leagues">
+                            <Leagues filters={filters} setFilters={setFilters} />
+                        </CollapseProvider>
                         <Separator />
-                        <p>Nationality</p>
+                        <CollapseProvider name="Nationality">
+                            <Countries filters={filters} setFilters={setFilters} />
+                        </CollapseProvider>
                     </div>
                 </ScrollArea>
             </SheetContent>

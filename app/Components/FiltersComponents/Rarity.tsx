@@ -1,4 +1,7 @@
+import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { ChevronUp } from 'lucide-react'
 import React from 'react'
 
 interface RarityProps {
@@ -6,31 +9,31 @@ interface RarityProps {
     setFilters: (value: any) => void
 }
 
-const values = ["LIMITED", "RARE", "SUPER RARE", "UNIQUE"]
+const rarity = ["LIMITED", "RARE", "SUPER RARE", "UNIQUE"]
 
 const Rarity = ({ filters, setFilters }: RarityProps) => {
 
-    const handleChange = (e: string | boolean, value: string) => {
-        if (!e && filters.rarity.includes(value)) {
-            setFilters({ ...filters, rarity: filters.rarity.filter((r: string) => r !== value) })
-        } else if (e && !filters.rarity.includes(value)) {
-            setFilters({ ...filters, rarity: [...filters.rarity, value] })
+    const handleChange = (value: string | boolean, name: string) => {
+        if (typeof value === "boolean") {
+            setFilters({ ...filters, rarity: { ...filters.rarity, [name]: value } })
         }
     }
 
     return (
-        <div className="flex flex-col items-start justify-center gap-2">
-            {values.map((value) => (
-                <div key={value} className="flex items-center space-x-2">
-                    <Checkbox id={value} onCheckedChange={(e) => handleChange(e, value)} />
-                    <label
-                        htmlFor="terms2"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                        {value}
-                    </label>
-                </div>
-            ))}
+        <div className="w-full h-full">
+            <div className="flex flex-col items-start justify-center gap-2">
+                {rarity.map((name: string) => (
+                    <div key={name} className="flex items-center space-x-2">
+                        <Checkbox checked={filters.rarity[name]} id={name} onCheckedChange={(value) => handleChange(value, name)} />
+                        <label
+                            htmlFor="terms2"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                            {name}
+                        </label>
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }

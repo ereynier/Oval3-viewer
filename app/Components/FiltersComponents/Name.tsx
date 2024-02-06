@@ -1,5 +1,8 @@
+import { Button } from '@/components/ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import { ChevronUp } from 'lucide-react'
+import React, { use, useEffect } from 'react'
 
 interface NameProps {
     setFilters: (value: any) => void
@@ -7,8 +10,22 @@ interface NameProps {
 }
 
 const Name = ({ setFilters, filters }: NameProps) => {
+
+    const [name, setName] = React.useState(filters.name)
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setName(e.target.value)
+        setFilters({ ...filters, name: e.target.value })
+    }
+
+    useEffect(() => {
+        setName(filters.name)
+    }, [filters.name])
+
     return (
-        <Input placeholder="Player name" onChange={(value) => setFilters({ ...filters, name: value })} />
+        <div className="w-full h-full">
+            <Input placeholder="Player name" value={name} onChange={(e) => handleChange(e)} />
+        </div>
     )
 }
 

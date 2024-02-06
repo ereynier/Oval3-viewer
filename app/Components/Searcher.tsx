@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import React from 'react'
 import { useToast } from "@/components/ui/use-toast"
+import RugbyLoader from '@/components/RugbyLoader'
 
 interface SearcherProps {
     setData: React.Dispatch<React.SetStateAction<any>>
@@ -65,6 +66,7 @@ const Searcher = ({setData}: SearcherProps) => {
                 <Button className="w-full sm:w-fit">
                     {loading ? "Loading..." : "Search"}
                 </Button>
+                {loading && <RugbyLoader />}
             </form>
         </div>
     )

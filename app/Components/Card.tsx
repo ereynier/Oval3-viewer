@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from "next/image";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import Stats from './Stats';
@@ -7,9 +7,10 @@ import Stats from './Stats';
 interface CardProps {
   metadata?: any
   additionals?: any
+  stats?: any
 }
 
-const Card = ({ metadata, additionals }: CardProps) => {
+const Card = ({ metadata, additionals, stats }: CardProps) => {
 
   const [open, setOpen] = React.useState<boolean>(false)
 
@@ -18,6 +19,7 @@ const Card = ({ metadata, additionals }: CardProps) => {
     console.log(metadata)
     console.log(additionals?.Card)
   }
+
 
   return (
     <div className="flex items-center justify-center">
@@ -40,7 +42,7 @@ const Card = ({ metadata, additionals }: CardProps) => {
         </CardBody>
       </CardContainer>
       {additionals?.Card && (
-        <Stats open={open} setOpen={setOpen} Card={additionals?.Card} />
+        <Stats open={open} setOpen={setOpen} Card={additionals?.Card} stats={stats} />
       )}
     </div>
   );

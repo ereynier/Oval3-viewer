@@ -1,26 +1,26 @@
 import React, { useEffect } from 'react'
-import clubs from "@/utils/datas/clubs.json"
+import countries from "@/utils/datas/countries.json"
 import { Checkbox } from '@/components/ui/checkbox'
 import Image from 'next/image'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { ChevronUp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-interface ClubsProps {
+interface CountriesProps {
     setFilters: (value: any) => void
     filters: any
 }
 
-const Clubs = ({ setFilters, filters }: ClubsProps) => {
+const Countries = ({ setFilters, filters }: CountriesProps) => {
 
-    const [isAllChecked, setIsAllChecked] = React.useState(Object.values(filters.clubs).every((value) => value === true))
+    const [isAllChecked, setIsAllChecked] = React.useState(Object.values(filters.countries).every((value) => value === true))
 
     const handleChange = (value: boolean | string, name: string) => {
-        setFilters({ ...filters, clubs: { ...filters.clubs, [name]: value } })
+        setFilters({ ...filters, countries: { ...filters.countries, [name]: value } })
         if (value === false) {
             setIsAllChecked(false)
         } else {
-            const allChecked = Object.values({ ...filters.clubs, [name]: value }).every((value) => value === true)
+            const allChecked = Object.values({ ...filters.countries, [name]: value }).every((value) => value === true)
             setIsAllChecked(allChecked)
         }
     }
@@ -28,26 +28,26 @@ const Clubs = ({ setFilters, filters }: ClubsProps) => {
     const handleAllChange = (value: boolean | string) => {
         if (typeof value === "boolean") {
             setIsAllChecked(value)
-            setFilters({ ...filters, clubs: clubs.reduce((acc, club) => ({ ...acc, [club.name]: value }), {}) })
+            setFilters({ ...filters, countries: countries.reduce((acc, country) => ({ ...acc, [country.name]: value }), {}) })
         }
     }
 
+
     useEffect(() => {
-        setIsAllChecked(Object.values(filters.clubs).every((value) => value === true))
-    }, [filters.clubs])
+        setIsAllChecked(Object.values(filters.countries).every((value) => value === true))
+    }, [filters.countries])
 
     return (
-        <div className="w-full h-full flex flex-col gap-1">
+        <div className="w-full h-full">
             <div className='flex items-center gap-2'>
                 <Checkbox checked={isAllChecked} onCheckedChange={(value) => handleAllChange(value)} />
                 <p className='italic'>Select all</p>
             </div>
-            {clubs.map((club, index) => {
+            {countries.map((country, index) => {
                 return (
                     <div key={index} className='flex items-center gap-2'>
-                        <Checkbox checked={filters.clubs[club.name]} onCheckedChange={(value) => handleChange(value, club.name)} />
-                        <Image title={club.name} src={club.clubCode} alt={`${club.name} logo`} width={30} height={30} className='bg-neutral-900 dark:bg-background rounded-sm' />
-                        <p>{club.name}</p>
+                        <Checkbox checked={filters.countries[country.name]} onCheckedChange={(value) => handleChange(value, country.name)} />
+                        <p>{country.name}</p>
                     </div>
                 )
             })}
@@ -55,4 +55,4 @@ const Clubs = ({ setFilters, filters }: ClubsProps) => {
     )
 }
 
-export default Clubs
+export default Countries
