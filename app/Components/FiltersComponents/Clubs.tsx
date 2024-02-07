@@ -46,7 +46,8 @@ const Clubs = ({ setFilters, filters }: ClubsProps) => {
                 return (
                     <div key={index} className='flex items-center gap-2'>
                         <Checkbox checked={filters.clubs[club.name]} onCheckedChange={(value) => handleChange(value, club.name)} />
-                        <Image title={club.name} src={club.clubCode} alt={`${club.name} logo`} width={30} height={30} className='bg-neutral-900 dark:bg-background rounded-sm' />
+                        {/* Bezier, Agen, Provence need background on light */}
+                        <Image title={club.name} src={club.clubCode} alt={`${club.name} logo`} width={30} height={30} className={`${(club.clubCode.includes("0031-ASBH") || club.clubCode.includes("0005-SUA") || club.clubCode.includes("0018-Provence-Rugby")) ? "bg-gray-800 dark:bg-background rounded-full" : ""}`} />
                         <p>{club.name}</p>
                     </div>
                 )

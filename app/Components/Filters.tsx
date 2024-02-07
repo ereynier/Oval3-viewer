@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
     Sheet,
     SheetContent,
@@ -33,30 +33,42 @@ interface FiltersProps {
 
 const Filters = ({ setFilters, filters }: FiltersProps) => {
 
+    const [nbFilters, setNbFilters] = React.useState<number>(0)
+
+    useEffect(() => {
+        setNbFilters(Object.keys(filters).filter((key) => filters[key] !== { ...emptyFilters }[key]).length)
+    }, [filters])
+
     return (
         <Sheet>
-            <SheetTrigger className='flex flex-row gap-2 hover:bg-secondary rounded-lg border w-full sm:w-[180px] h-10 justify-between p-2 items-center'>
+            <SheetTrigger className='relative flex flex-row gap-2 hover:bg-secondary rounded-lg border w-full sm:w-[180px] h-10 justify-between p-2 items-center bg-background'>
                 <p>Filters</p>
                 <ListFilter size={24} />
+                {nbFilters > 0 && (
+                    <div className='absolute top-0 right-0 -mt-2 -mr-2 bg-primary text-primary-foreground rounded-full h-5 w-5 flex items-center justify-center'>
+                        <p className=' text-xs'>{nbFilters}</p>
+                    </div>
+                )}
             </SheetTrigger>
             <SheetContent side={"left"} className='p-2 sm:p-4'>
                 <SheetHeader>
                     <SheetTitle>Filters</SheetTitle>
-                    <SheetDescription className='flex flex-col gap-1'>
+                    <SheetDescription className='flex flex-col gap-2'>
                         {"Select the filters you want to apply"}
-                        <Button onClick={() => {setFilters({...emptyFilters})}} className='w-full mb-1' variant='secondary'>Reset filters</Button>
+                        <Separator className='shadow-lg shadow-black' />
                     </SheetDescription>
                 </SheetHeader>
-                <ScrollArea className='h-full w-full p-0 pb-[80px]'>
+                <ScrollArea className='h-full w-full p-0 pb-[50px]'>
                     <div className="flex flex-col items-start gap-4 justify-center my-4 p-1">
+                        <Button disabled={nbFilters == 0} onClick={() => { setFilters({ ...emptyFilters }) }} className={`w-full mb-1`} variant='default'>Reset filters</Button>
                         <CollapseProvider name="Name">
                             <Name filters={filters} setFilters={setFilters} />
                         </CollapseProvider>
-                        <Separator/>
+                        <Separator />
                         <CollapseProvider name="Rarity">
                             <Rarity filters={filters} setFilters={setFilters} />
                         </CollapseProvider>
-                        <Separator/>
+                        <Separator />
                         <CollapseProvider name="Clubs">
                             <Clubs filters={filters} setFilters={setFilters} />
                         </CollapseProvider>

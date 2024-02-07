@@ -4,12 +4,15 @@ import { Input } from '@/components/ui/input'
 import React from 'react'
 import { useToast } from "@/components/ui/use-toast"
 import RugbyLoader from '@/components/RugbyLoader'
+import { Label } from '@/components/ui/label'
+import { isAddress } from 'viem'
 
 interface SearcherProps {
     setData: React.Dispatch<React.SetStateAction<any>>
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Searcher = ({setData}: SearcherProps) => {
+const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
 
     const [address, setAddress] = React.useState<string>("")
     const [loading, setLoading] = React.useState<boolean>(false)
@@ -22,7 +25,22 @@ const Searcher = ({setData}: SearcherProps) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        if (loading) return
+        if (!address) {
+            setData(undefined)
+            return
+        }
+        if (!isAddress(address)) {
+            setError("Invalid address")
+            toast({
+                title: "An error occurred.",
+                description: "Invalid address",
+                variant: "destructive"
+            })
+            return
+        }
         setLoading(true)
+        setIsLoading(true)
         setError("")
         console.log("address:", address)
         fetch("/api/cards", {
@@ -46,6 +64,7 @@ const Searcher = ({setData}: SearcherProps) => {
                     })
                 }
                 setLoading(false)
+                setIsLoading(false)
             })
             .catch(err => {
                 console.log(err)
@@ -56,14 +75,18 @@ const Searcher = ({setData}: SearcherProps) => {
                     variant: "destructive"
                 })
                 setLoading(false)
+                setIsLoading(false)
             })
     }
 
     return (
         <div className="flex flex-col items-center justify-start w-full py-2">
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 items-center justify-around max-w-4xl mt-6 px-8 w-full">
-                <Input required placeholder="Address..." value={address} onChange={handleChange} />
-                <Button className="w-full sm:w-fit">
+            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 items-end justify-around max-w-4xl mt-2 px-8 w-full">
+                <div className='flex flex-col gap-1 items-start justify-center w-full'>
+                    <Label className=''>User address</Label>
+                    <Input placeholder="Address..." value={address} onChange={handleChange} />
+                </div>
+                <Button disabled={loading} className="w-full sm:w-fit">
                     {loading ? "Loading..." : "Search"}
                 </Button>
                 {loading && <RugbyLoader />}

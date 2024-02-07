@@ -196,7 +196,7 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
 
     return (
         <div className='w-full h-full mt-6'>
-            <div className='w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 py-4 px-8 sm:px-12 md:px-24 lg:px-48 gap-12'>
+            <div className='w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 py-4 px-8 sm:px-12 md:px-24 xl:px-48 gap-12'>
                 {metadatas && stats && additionals && sortData(data).map((item: any, index: number) => (
                     (metadatas && metadatas[item] && isFiltered(item)) &&
                     <div key={index} className="">
