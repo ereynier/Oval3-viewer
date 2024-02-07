@@ -1,9 +1,12 @@
 "use client"
 import React, { useRef } from 'react'
 import Card from './Card'
+import _ from 'lodash';
 
 import countries from "@/utils/datas/countries.json";
 import RugbyLoader from '@/components/RugbyLoader';
+import { Skeleton } from '@/components/ui/skeleton';
+import Image from 'next/image';
 
 interface CardsProps {
     data: any
@@ -100,9 +103,11 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
 
     // }, [data]);
 
-
+    const prevDataRef = useRef();
     React.useEffect(() => {
         if (!data) return;
+        if (!data || _.isEqual(data, prevDataRef.current)) return;
+        prevDataRef.current = data;
         setCards({})
         data?.tokens.forEach((item: any, index: number) => {
             fetch(`/api/metadata/${item}`)
@@ -249,6 +254,18 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
                         </div>
                     )
                 ))}
+                {(Object.keys(cards).length > 0 && Object.keys(cards).length < data.tokens.length) && (
+                    <div className='w-full h-full flex'>
+                        <Image
+                            src={"/images/card-placeholder.webp"}
+                            height="977"
+                            width="640"
+                            className="object-cover rounded-xl group-hover/card:shadow-xl opacity-75 animate-pulse"
+                            alt={"empty card"}
+                        />
+                        <RugbyLoader zIndex={-5} />
+                    </div>
+                )}
             </div>
             {(Object.keys(cards).length == 0) && (
                 <RugbyLoader />

@@ -47,7 +47,7 @@ const Landing = () => {
             Oval3 Viewer
           </p>
           <p className="text-center text-3xl sm:text-4xl font-bold relative bg-clip-text text-neutral-800 dark:text-neutral-300">
-            Search for your cards
+            Check your cards
           </p>
         </div>
       )}

@@ -29,8 +29,8 @@ const Card = ({ metadata, additionals, stats }: CardProps) => {
             <CardItem translateZ="100" className="w-full h-auto" as={"button"}>
               <Image
                 src={metadata?.image || "/images/card-placeholder.webp"}
-                height="500"
-                width="500"
+                height="977"
+                width="640"
                 className="object-cover rounded-xl group-hover/card:shadow-xl"
                 alt={`${metadata?.name} card`}
               />

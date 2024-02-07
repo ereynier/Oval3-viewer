@@ -84,7 +84,7 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 items-end justify-around max-w-4xl mt-2 px-8 w-full">
                 <div className='flex flex-col gap-1 items-start justify-center w-full'>
                     <Label className=''>User address</Label>
-                    <Input placeholder="Address..." value={address} onChange={handleChange} />
+                    <Input placeholder="0x8a6f..." value={address} onChange={handleChange} />
                 </div>
                 <Button disabled={loading} className="w-full sm:w-fit">
                     {loading ? "Loading..." : "Search"}
