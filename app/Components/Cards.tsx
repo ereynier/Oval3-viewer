@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useRef } from 'react'
 import Card from './Card'
 
 import countries from "@/utils/datas/countries.json";
@@ -24,88 +24,133 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
     // sortBy: id, rarity, score, club
 
     // fetch here, and pass the data to the Card component
-    const [metadatas, setMetadatas] = React.useState<{ [key: number]: any } | undefined>(undefined)
-    const [additionals, setAdditionals] = React.useState<any>(undefined)
-    const [stats, setStats] = React.useState<any>(undefined)
+    const [cards, setCards] = React.useState<any>({})
+
+    // React.useEffect(() => {
+    //     if (!data) return;
+    //     const fetchPromises = data?.tokens.map((item: any, index: number) =>
+    //         fetch(`/api/metadata/${item}`)
+    //             .then(res => res.json())
+    //             .then(data => ({ index, data: data.data }))
+    //     );
+
+    //     const fetchAdditionalsPromises = data?.tokens.map((item: any, index: number) =>
+    //         fetch("https://api.oval3.game/graphql/", {
+    //             "credentials": "omit",
+    //             "headers": {
+    //                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0",
+    //                 "Accept": "*/*",
+    //                 "Accept-Language": "en-US,en;q=0.5",
+    //                 "content-type": "application/json",
+    //                 "apollographql-client-name": "era2140-oval3",
+    //                 "apollographql-client-version": "0.0.1",
+    //                 "Access-Control-Allow-Origin": "*",
+    //                 "Sec-Fetch-Dest": "empty",
+    //                 "Sec-Fetch-Mode": "cors",
+    //                 "Sec-Fetch-Site": "same-site"
+    //             },
+    //             "referrer": "https://marketplace.oval3.game/",
+    //             "body": "{\"operationName\":\"findCard\",\"variables\":{\"tokenId\":\"" + String(item) + "\",\"similarPlayer\":true},\"query\":\"query findCard($tokenId: String!, $similarPlayer: Boolean) {\\n  Card(tokenId: $tokenId, similarCard: $similarPlayer) {\\n    tokenId\\n    rarity\\n    owner {\\n      address\\n    }\\n    edition\\n    international\\n    academy\\n    similarPlayers {\\n      image\\n      tokenId\\n    }\\n    optaId\\n    season\\n    competition\\n    club {\\n      name\\n      clubCode\\n    }\\n    bidCount\\n    score\\n    image\\n    firstname\\n    lastname\\n    position\\n    age\\n    nationality\\n    listingStatus\\n    amount\\n    endTime\\n  }\\n}\"}",
+    //             "method": "POST",
+    //             "mode": "cors"
+    //         }).then(res => res.json())
+    //             .then(data => ({ index, data: data }))
+    //             .catch(error => error)
+    //     );
+
+    //     Promise.all(fetchPromises)
+    //         .then(results => {
+    //             const tmpMetadatas: any = {};
+    //             results.forEach(({ index, data }) => {
+    //                 tmpMetadatas[data.token] = data;
+    //             });
+    //             setMetadatas(tmpMetadatas);
+    //         })
+    //         .catch(error => console.error(error));
+
+    //     const tmpAdditionals: any = {};
+    //     Promise.all(fetchAdditionalsPromises)
+    //         .then(results => {
+    //             results.forEach(({ index, data }) => {
+    //                 tmpAdditionals[data.data.Card.tokenId] = data.data;
+    //             });
+    //             setAdditionals(tmpAdditionals);
+    //         })
+    //         .then(() => {
+    //             const fetchStatsPromises = Object.keys(tmpAdditionals).map((key: any) => {
+    //                 const item = tmpAdditionals[key];
+    //                 return fetch(`https://score.oval3.game/api/scoring/player/${item.Card.optaId}`)
+    //                     .then(res => res.json())
+    //                     .then(data => ({ key, data: data }))
+    //                     .catch(error => error)
+    //             });
+
+    //             Promise.all(fetchStatsPromises)
+    //                 .then(results => {
+    //                     const tmpStats: any = {};
+    //                     results.forEach(({ key, data }) => {
+    //                         tmpStats[key] = data.data;
+    //                     });
+    //                     setStats(tmpStats);
+    //                 })
+    //                 .catch(error => console.error(error));
+
+    //         })
+    //         .catch(error => console.error(error));
+
+    // }, [data]);
+
 
     React.useEffect(() => {
         if (!data) return;
-        const fetchPromises = data?.tokens.map((item: any, index: number) =>
+        setCards({})
+        data?.tokens.forEach((item: any, index: number) => {
             fetch(`/api/metadata/${item}`)
                 .then(res => res.json())
-                .then(data => ({ index, data: data.data }))
-        );
-
-        const fetchAdditionalsPromises = data?.tokens.map((item: any, index: number) =>
-            fetch("https://api.oval3.game/graphql/", {
-                "credentials": "omit",
-                "headers": {
-                    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0",
-                    "Accept": "*/*",
-                    "Accept-Language": "en-US,en;q=0.5",
-                    "content-type": "application/json",
-                    "apollographql-client-name": "era2140-oval3",
-                    "apollographql-client-version": "0.0.1",
-                    "Access-Control-Allow-Origin": "*",
-                    "Sec-Fetch-Dest": "empty",
-                    "Sec-Fetch-Mode": "cors",
-                    "Sec-Fetch-Site": "same-site"
-                },
-                "referrer": "https://marketplace.oval3.game/",
-                "body": "{\"operationName\":\"findCard\",\"variables\":{\"tokenId\":\"" + String(item) + "\",\"similarPlayer\":true},\"query\":\"query findCard($tokenId: String!, $similarPlayer: Boolean) {\\n  Card(tokenId: $tokenId, similarCard: $similarPlayer) {\\n    tokenId\\n    rarity\\n    owner {\\n      address\\n    }\\n    edition\\n    international\\n    academy\\n    similarPlayers {\\n      image\\n      tokenId\\n    }\\n    optaId\\n    season\\n    competition\\n    club {\\n      name\\n      clubCode\\n    }\\n    bidCount\\n    score\\n    image\\n    firstname\\n    lastname\\n    position\\n    age\\n    nationality\\n    listingStatus\\n    amount\\n    endTime\\n  }\\n}\"}",
-                "method": "POST",
-                "mode": "cors"
-            }).then(res => res.json())
-                .then(data => ({ index, data: data }))
-                .catch(error => error)
-        );
-
-        Promise.all(fetchPromises)
-            .then(results => {
-                const tmpMetadatas: any = {};
-                results.forEach(({ index, data }) => {
-                    tmpMetadatas[data.token] = data;
-                });
-                setMetadatas(tmpMetadatas);
-            })
-            .catch(error => console.error(error));
-
-        const tmpAdditionals: any = {};
-        Promise.all(fetchAdditionalsPromises)
-            .then(results => {
-                results.forEach(({ index, data }) => {
-                    tmpAdditionals[data.data.Card.tokenId] = data.data;
-                });
-                setAdditionals(tmpAdditionals);
-            })
-            .then(() => {
-                const fetchStatsPromises = Object.keys(tmpAdditionals).map((key: any) => {
-                    const item = tmpAdditionals[key];
-                    return fetch(`https://score.oval3.game/api/scoring/player/${item.Card.optaId}`)
-                        .then(res => res.json())
-                        .then(data => ({ key, data: data }))
-                        .catch(error => error)
-                });
-
-                Promise.all(fetchStatsPromises)
-                    .then(results => {
-                        const tmpStats: any = {};
-                        results.forEach(({ key, data }) => {
-                            tmpStats[key] = data.data;
-                        });
-                        setStats(tmpStats);
+                .then(metadata => {
+                    fetch("https://api.oval3.game/graphql/", {
+                        "credentials": "omit",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0",
+                            "Accept": "*/*",
+                            "Accept-Language": "en-US,en;q=0.5",
+                            "content-type": "application/json",
+                            "apollographql-client-name": "era2140-oval3",
+                            "apollographql-client-version": "0.0.1",
+                            "Access-Control-Allow-Origin": "*",
+                            "Sec-Fetch-Dest": "empty",
+                            "Sec-Fetch-Mode": "cors",
+                            "Sec-Fetch-Site": "same-site"
+                        },
+                        "referrer": "https://marketplace.oval3.game/",
+                        "body": "{\"operationName\":\"findCard\",\"variables\":{\"tokenId\":\"" + String(item) + "\",\"similarPlayer\":true},\"query\":\"query findCard($tokenId: String!, $similarPlayer: Boolean) {\\n  Card(tokenId: $tokenId, similarCard: $similarPlayer) {\\n    tokenId\\n    rarity\\n    owner {\\n      address\\n    }\\n    edition\\n    international\\n    academy\\n    similarPlayers {\\n      image\\n      tokenId\\n    }\\n    optaId\\n    season\\n    competition\\n    club {\\n      name\\n      clubCode\\n    }\\n    bidCount\\n    score\\n    image\\n    firstname\\n    lastname\\n    position\\n    age\\n    nationality\\n    listingStatus\\n    amount\\n    endTime\\n  }\\n}\"}",
+                        "method": "POST",
+                        "mode": "cors"
                     })
-                    .catch(error => console.error(error));
-
-            })
-            .catch(error => console.error(error));
-
+                        .then(res => res.json())
+                        .then(additional => {
+                            fetch(`https://score.oval3.game/api/scoring/player/${additional.data.Card.optaId}`)
+                                .then(res => res.json())
+                                .then(stats => {
+                                    setCards((prev: any) => {
+                                        return {
+                                            ...prev,
+                                            [item]: {
+                                                metadata: metadata.data,
+                                                additional: additional.data,
+                                                stats: stats.data
+                                            }
+                                        }
+                                    })
+                                });
+                        });
+                });
+        });
     }, [data]);
 
     const sortData = (data: any) => {
-        if (!metadatas || !additionals) return data.tokens;
         const sorted = data.tokens.sort((a: any, b: any) => {
-            if (!metadatas[a] || !metadatas[b]) return 0
+            if (!cards[a] || !cards[b]) return 0
             if (sortBy === "id") {
                 if (order === "asc") {
                     return a - b;
@@ -114,79 +159,79 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
                 }
             } else if (sortBy === "rarity") {
                 if (order === "asc") {
-                    return Number(Rarity[metadatas[a].attributes[0].value]) - Number(Rarity[metadatas[b].attributes[0].value]);
+                    return Number(Rarity[cards[a].metadata.attributes[0].value]) - Number(Rarity[cards[b].metadata.attributes[0].value]);
                 } else {
-                    return Number(Rarity[metadatas[b].attributes[0].value]) - Number(Rarity[metadatas[a].attributes[0].value]);
+                    return Number(Rarity[cards[b].metadata.attributes[0].value]) - Number(Rarity[cards[a].metadata.attributes[0].value]);
                 }
             } else if (sortBy === "score") {
                 if (order === "asc") {
-                    return additionals[a].Card.score - additionals[b].Card.score;
+                    return cards[a].additional.Card.score - cards[b].additional.Card.score;
                 } else {
-                    return additionals[b].Card.score - additionals[a].Card.score;
+                    return cards[b].additional.Card.score - cards[a].additional.Card.score;
                 }
             } else if (sortBy === "club") {
                 if (order === "asc") {
-                    return metadatas[a].attributes[4].value.localeCompare(metadatas[b].attributes[4].value);
+                    return cards[a].metadata.attributes[4].value.localeCompare(cards[b].metadata.attributes[4].value);
                 } else {
-                    return metadatas[b].attributes[4].value.localeCompare(metadatas[a].attributes[4].value);
+                    return cards[b].metadata.attributes[4].value.localeCompare(cards[a].metadata.attributes[4].value);
                 }
             }
         });
         return sorted;
     }
 
-    const isFiltered = (item: any) => {
-        if (!metadatas || !additionals || !stats) return false
+    const isFiltered = (card: any) => {
+        if (!card.metadata || !card.additional || !card.stats) return false
         // Name
         if (filters.name && filters.name !== "") {
-            if (!metadatas[item].name.toLowerCase().includes(filters.name.toLowerCase())) {
+            if (!card.metadata.name.toLowerCase().includes(filters.name.toLowerCase())) {
                 return false
             }
         }
         // Rarity
-        if (!filters.rarity[metadatas[item].attributes[0].value]) {
+        if (!filters.rarity[card.metadata.attributes[0].value]) {
             return false
         }
         // Clubs
-        if (!filters.clubs[metadatas[item].attributes[4].value]) {
+        if (!filters.clubs[card.metadata.attributes[4].value]) {
             return false
         }
         // Position
-        if (!filters.position[metadatas[item].attributes[6].value]) {
+        if (!filters.position[card.metadata.attributes[6].value]) {
             return false
         }
         // Score
-        if (additionals[item] && (additionals[item].Card.score < filters.score[0] || additionals[item].Card.score > filters.score[1])) {
+        if (card.additional && (card.additional.Card.score < filters.score[0] || card.additional.Card.score > filters.score[1])) {
             return false
         }
         // Stats
-        if (stats[item]) {
-            if (stats[item].attack < filters.stats.attack[0] || stats[item].attack > filters.stats.attack[1]) {
+        if (card.stats) {
+            if (card.stats.attack < filters.stats.attack[0] || card.stats.attack > filters.stats.attack[1]) {
                 return false
             }
-            if (stats[item].defense < filters.stats.defense[0] || stats[item].defense > filters.stats.defense[1]) {
+            if (card.stats.defense < filters.stats.defense[0] || card.stats.defense > filters.stats.defense[1]) {
                 return false
             }
-            if (stats[item].strength < filters.stats.strength[0] || stats[item].strength > filters.stats.strength[1]) {
+            if (card.stats.strength < filters.stats.strength[0] || card.stats.strength > filters.stats.strength[1]) {
                 return false
             }
-            if (stats[item].impact < filters.stats.impact[0] || stats[item].impact > filters.stats.impact[1]) {
+            if (card.stats.impact < filters.stats.impact[0] || card.stats.impact > filters.stats.impact[1]) {
                 return false
             }
-            if (stats[item].skills < filters.stats.skills[0] || stats[item].skills > filters.stats.skills[1]) {
+            if (card.stats.skills < filters.stats.skills[0] || card.stats.skills > filters.stats.skills[1]) {
                 return false
             }
         }
         // Age
-        if (additionals[item] && (additionals[item].Card.age < filters.age[0] || additionals[item].Card.age > filters.age[1])) {
+        if (card.additional && (card.additional.Card.age < filters.age[0] || card.additional.Card.age > filters.age[1])) {
             return false
         }
         // Leagues
-        if (!filters.leagues[metadatas[item].attributes[5].value]) {
+        if (!filters.leagues[card.metadata.attributes[5].value]) {
             return false
         }
         // Countries
-        const playerCountry = countries.find((country: any) => country.code === metadatas[item].attributes[2].value)
+        const playerCountry = countries.find((country: any) => country.code === card.metadata.attributes[2].value)
         if (playerCountry && !filters.countries[playerCountry.name]) {
             return false
         }
@@ -197,14 +242,15 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
     return (
         <div className='w-full h-full mt-6'>
             <div className='w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 py-4 px-8 sm:px-12 md:px-24 xl:px-48 gap-12'>
-                {metadatas && stats && additionals && sortData(data).map((item: any, index: number) => (
-                    (metadatas && metadatas[item] && isFiltered(item)) &&
-                    <div key={index} className="">
-                        <Card metadata={metadatas[item]} additionals={additionals[item]} stats={stats[item]} />
-                    </div>
+                {data && data.tokens && sortData(data).map((card: number, index: number) => (
+                    (cards[card] && isFiltered(cards[card]) &&
+                        <div key={index} className="">
+                            <Card metadata={cards[card].metadata} additionals={cards[card].additional} stats={cards[card].stats} />
+                        </div>
+                    )
                 ))}
             </div>
-            {(!metadatas || !additionals || !stats) && (
+            {(Object.keys(cards).length == 0) && (
                 <RugbyLoader />
             )}
         </div>
