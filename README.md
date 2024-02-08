@@ -85,7 +85,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://oval3viewer.ereynier.me)
 
-The web app is a simple way to explore the Oval3 cards by their owners. You can filter the cards by their stats, and see the cards' details by clicking on them. It use a JSON file to store the cards and owners datas created by the scripts in the `./scripts` folder. Some datas can be wrong or missing due to the way the scripts are working. You can find a further explanation in this article: TODO: add article link
+The web app is a simple way to explore the Oval3 cards by their owners. You can filter the cards by their stats, and see the cards' details by clicking on them. It use a JSON file to store the cards and owners datas created by the scripts in the `./scripts` folder. Some datas can be wrong or missing due to the way the scripts are working. You can find a further explanation in this article: [English](https://ereynier.medium.com/oval3-viewer-c7551edd20ff) / [French](https://ereynier.medium.com/8ebad02c0793).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
