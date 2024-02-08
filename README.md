@@ -85,6 +85,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://oval3viewer.ereynier.me)
 
+The web app is a simple way to explore the Oval3 cards by their owners. You can filter the cards by their stats, and see the cards' details by clicking on them. It use a JSON file to store the cards and owners datas created by the scripts in the `./scripts` folder. Some datas can be wrong or missing due to the way the scripts are working. You can find a further explanation in this article: TODO: add article link
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -112,7 +113,38 @@ To get a local copy up and running follow these simple steps.
 
 ### Installation
 
-1. TODO:
+#### To run the app
+
+1. install the dependencies
+   ```sh
+   pnpm install
+   ```
+2. Set the ENV variables
+   ```sh
+   cp .env.example .env.local
+   ```
+   Then fill the `.env.local` file with the required variables
+
+3. Run the development server
+   ```sh
+   pnpm next dev
+   ```
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+In the `./scripts` folder, you can find some scripts to get the cards by address and save them in a JSON file.
+
+1. `./scripts/GetOwners.ts` will get the owners of the cards and save them in a JSON file one time.
+    ```sh
+    cd scripts
+    tsc GetOwners.ts
+    node GetOwners.js
+    ```
+2. `./scripts/TransferListener.ts` will listen to the transfer events and save the cards in a JSON file every time a transfer event is detected.
+    ```sh
+    cd scripts
+    tsc TransferListener.ts
+    node TransferListener.js
+    ```
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -123,6 +155,11 @@ To get a local copy up and running follow these simple steps.
 ## Usage
 
 Go on the application URL and enter the address you want to check. You can also use the filters to find the cards you want to see.
+
+Here's a short list of addresses with cards:
+- 0xcaec752686fa7b7aAdfD2756FF79AFB328D335C7
+- 0x7EF742519F971d8eA882B3BEbe332F15a122605c
+- 0x48A541be78B1AC43942Daf8488dc22FE322a3Fa6
 
 _For a mor edetailed example, check the demo [video](https://example.com)_ TODO: embed video
 
