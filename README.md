@@ -31,13 +31,13 @@
 <br />
 <div align="center">
   <a href="https://github.com/ereynier/Oval3-viewer">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="img/Oval3-Viewer-logo-2.png" alt="Logo" width="150" height="">
   </a>
 
 <h3 align="center">Oval3 Viewer</h3>
 
   <p align="center">
-    A NextJS web app that let you explore your Oval3 cards, check the stats and filter them by different criteria.
+    A Next.js web app that allows you to explore Oval3 cards by their owners, view their stats, and filter them based on various criteria.
     <br />
     <a href="https://github.com/ereynier/Oval3-viewer"><strong>Explore the docs »</strong></a>
     <br />
@@ -124,7 +124,7 @@ To get a local copy up and running follow these simple steps.
 
 Go on the application URL and enter the address you want to check. You can also use the filters to find the cards you want to see.
 
-_For a mor edetailed example, check the demo [video](https://example.com)_ TODO:
+_For a mor edetailed example, check the demo [video](https://example.com)_ TODO: embed video
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -180,9 +180,10 @@ Project Link: [https://github.com/ereynier/Oval3-viewer](https://github.com/erey
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* []()
-* []()
-* []()
+* [Oval3 game](https://oval3.game)
+* [Next.js](https://nextjs.org/)
+* [TailwindCSS](https://tailwindcss.com/)
+* [Viem.sh](https://viem.sh)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
