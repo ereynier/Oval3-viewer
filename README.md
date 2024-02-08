@@ -138,8 +138,9 @@ In the `./scripts` folder, you can find some scripts to get the cards by address
     cd scripts
     tsc GetOwners.ts
     node GetOwners.js
+    cp data.json ../utils/datas/owners.json
     ```
-2. `./scripts/TransferListener.ts` will listen to the transfer events and save the cards in a JSON file every time a transfer event is detected.
+2. `./scripts/TransferListener.ts` will listen to the transfer events and save the cards in a JSON file every time a transfer event is detected. (It will update data.json, not owners.json)
     ```sh
     cd scripts
     tsc TransferListener.ts
@@ -157,9 +158,9 @@ In the `./scripts` folder, you can find some scripts to get the cards by address
 Go on the application URL and enter the address you want to check. You can also use the filters to find the cards you want to see.
 
 Here's a short list of addresses with cards:
-- 0xcaec752686fa7b7aAdfD2756FF79AFB328D335C7
-- 0x7EF742519F971d8eA882B3BEbe332F15a122605c
-- 0x48A541be78B1AC43942Daf8488dc22FE322a3Fa6
+- 0xBbBfc940ddF3222Cd01168D838dFA2cDe78947D3
+- 0xBDb1c31b8e8e61E85Bb5F3efD56e992e7E50af3e
+- 0x6a8319C56707a0d9E6F1e44cD277757aE5562835
 
 _For a more detailed example, check the demo [video](https://example.com)_ TODO: embed video
 
@@ -220,6 +221,9 @@ Project Link: [https://github.com/ereynier/Oval3-viewer](https://github.com/erey
 * [Oval3 game](https://oval3.game)
 * [Next.js](https://nextjs.org/)
 * [TailwindCSS](https://tailwindcss.com/)
+* [Shadcn-UI](https://ui.shadcn.com/)
+* [Aceternity-UI]https://ui.aceternity.com/components
+* [Radix-UI](https://www.radix-ui.com/)
 * [Viem.sh](https://viem.sh)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

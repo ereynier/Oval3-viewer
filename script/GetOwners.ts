@@ -19,7 +19,7 @@ async function getOwners(contractAddress: `0x${string}`, maxId = 0) {
         totalSupply = maxId;
     }
 
-    for (let i = 0; i < Number(maxId); i++) {
+    for (let i = 0; i < Number(totalSupply); i++) {
         const owner = await client.readContract({
             address: contractAddress,
             abi: Oval3Abi as any,
