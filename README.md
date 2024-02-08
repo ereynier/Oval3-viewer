@@ -161,7 +161,7 @@ Here's a short list of addresses with cards:
 - 0x7EF742519F971d8eA882B3BEbe332F15a122605c
 - 0x48A541be78B1AC43942Daf8488dc22FE322a3Fa6
 
-_For a mor edetailed example, check the demo [video](https://example.com)_ TODO: embed video
+_For a more detailed example, check the demo [video](https://example.com)_ TODO: embed video
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
