@@ -162,7 +162,10 @@ Here's a short list of addresses with cards:
 - 0xBDb1c31b8e8e61E85Bb5F3efD56e992e7E50af3e
 - 0x6a8319C56707a0d9E6F1e44cD277757aE5562835
 
-_For a more detailed example, check the demo [video](https://example.com)_ TODO: embed video
+_For a more detailed example, check the demo [video](https://youtu.be/QZEtW3I7qQI)_
+
+[<img src="img/oval3viewer minia.jpg" width="500"
+/>](https://www.youtube.com/embed/QZEtW3I7qQI)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
