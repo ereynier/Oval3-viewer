@@ -165,7 +165,7 @@ Here's a short list of addresses with cards:
 _For a more detailed example, check the demo [video](https://youtu.be/QZEtW3I7qQI)_
 
 [<img src="img/oval3viewer minia.jpg" width="500"
-/>](https://www.youtube.com/embed/QZEtW3I7qQI)
+/>](https://youtu.be/QZEtW3I7qQI)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
