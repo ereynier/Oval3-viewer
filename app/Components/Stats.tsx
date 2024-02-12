@@ -138,13 +138,13 @@ const Stats = ({ open, setOpen, Card, stats }: StatsProps) => {
                             <div className="flex flex-col items-start justify-start gap-1 w-full h-full md:px-4 lg:px-16 xl:px-32">
                                 <p className="text-xl font-semibold">Last matches</p>
                                 <div className="flex flex-row items-start justify-start gap-8 w-full h-full">
-                                    {stats?.nb_games.map((match: any, index: number) => (
+                                    {stats.nb_games && stats?.nb_games.map((match: any, index: number) => (
                                         <div key={index} className="flex flex-col items-start justify-start gap-0 w-fit h-full">
                                             <p className="md:text-sm text-xs text-muted-foreground">{formatDate(match?.game_date)}</p>
                                             <p className="md:text-lg text-md font-bold">{Number(match.metadata_total).toFixed(0)}</p>
                                         </div>
                                     ))}
-                                    {stats?.nb_games.length === 0 && (
+                                    {!stats.nb_games || stats?.nb_games.length === 0 && (
                                         <p className="md:text-lg text-md font-bold">No matches</p>
                                     )}
                                 </div>
