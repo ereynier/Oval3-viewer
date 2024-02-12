@@ -24,7 +24,13 @@ const Sorter = ({ setSortBy, toggleOrder, order }: SorterProps) => {
                 <SelectTrigger className="w-full sm:w-[180px]">
                     <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent
+                    ref={(ref) => {
+                        if (!ref) return;
+                        ref.ontouchstart = (e) => {
+                            e.preventDefault();
+                        }
+                    }}>
                     <SelectItem value="id">ID</SelectItem>
                     <SelectItem value="rarity">Rarity</SelectItem>
                     <SelectItem value="club">Club</SelectItem>
