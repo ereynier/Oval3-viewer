@@ -30,7 +30,8 @@ const Sorter = ({ setSortBy, toggleOrder, order }: SorterProps) => {
                         ref.ontouchstart = (e) => {
                             e.preventDefault();
                         }
-                    }}>
+                    }}
+                >
                     <SelectItem value="id">ID</SelectItem>
                     <SelectItem value="rarity">Rarity</SelectItem>
                     <SelectItem value="club">Club</SelectItem>
