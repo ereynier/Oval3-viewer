@@ -225,7 +225,7 @@ Project Link: [https://github.com/ereynier/Oval3-viewer](https://github.com/erey
 * [Next.js](https://nextjs.org/)
 * [TailwindCSS](https://tailwindcss.com/)
 * [Shadcn-UI](https://ui.shadcn.com/)
-* [Aceternity-UI]https://ui.aceternity.com/components
+* [Aceternity-UI](https://ui.aceternity.com/components)
 * [Radix-UI](https://www.radix-ui.com/)
 * [Viem.sh](https://viem.sh)
 
