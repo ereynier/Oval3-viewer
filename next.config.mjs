@@ -13,6 +13,7 @@ const nextConfig = {
                 pathname: '/**',
             }
         ],
+        unoptimized: true,
     },
     webpack(config, { isServer }) {
         // Configures webpack to handle SVG files with SVGR. SVGR optimizes and transforms SVG files
