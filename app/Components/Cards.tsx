@@ -165,7 +165,7 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
             setLoading(true);
             setNbFetched(0);
 
-            const batchSize = 50; // Set your batch size here
+            const batchSize = 20; // Set your batch size here
             const results = [];
 
             for (let i = 0; i < data.tokens.length; i += batchSize) {
@@ -375,7 +375,7 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
                     card = card.metadata.token,
                     (cards[card] && isFiltered(cards[card]) &&
                         <div key={index} className="">
-                            <Card metadata={cards[card].metadata} additionals={cards[card].additional} stats={cards[card].stats} loading={loading} />
+                            <Card metadata={cards[card].metadata} additionals={cards[card].additional} stats={cards[card].stats} />
                         </div>
                     )
                 ))}
@@ -389,7 +389,7 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
                             alt={"empty card"}
                         />
                         <RugbyLoader />
-                        <p className='w-full h-full absolute left-0 bottom-0 -z-10'>{nbFetched} / {data.tokens.length}</p>
+                        <p className='fixed text-xs font-semibold left-1 bottom-0 z-10 text-gray-600'>{nbFetched} / {data.tokens.length}</p>
                     </div>
                 )}
             </div>

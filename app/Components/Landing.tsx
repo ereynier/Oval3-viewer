@@ -30,7 +30,7 @@ const Landing = () => {
           <Sorter setSortBy={setSortBy} toggleOrder={toggleOrder} order={order} />
         </div>
       </div>
-      {data && data.tokens && (<Cards data={data} sortBy={sortBy} order={order} filters={filters} />)}
+      {data && data.tokens && (data.tokens).length < 1000 && (<Cards data={data} sortBy={sortBy} order={order} filters={filters} />)}
       {data && !data.tokens && (
         <div className="flex flex-col items-center justify-center gap-8 w-full max-w-4xl mt-36">
           <p className="text-center text-4xl sm:text-5xl font-bold relative bg-clip-text text-neutral-800 dark:text-neutral-300">
@@ -48,6 +48,16 @@ const Landing = () => {
           </p>
           <p className="text-center text-3xl sm:text-4xl font-bold relative bg-clip-text text-neutral-800 dark:text-neutral-300">
             Check your cards
+          </p>
+        </div>
+      )}
+      {data && data.tokens && (data.tokens).length >= 1000 && (
+        <div className="flex flex-col items-center justify-center gap-8 w-full max-w-4xl mt-36 px-4">
+          <p className="text-center text-4xl sm:text-5xl font-bold relative bg-clip-text text-neutral-800 dark:text-neutral-300">
+            Too many cards
+          </p>
+          <p className="text-center text-2xl sm:text-3xl font-bold relative bg-clip-text text-neutral-800 dark:text-neutral-300">
+            {"Contact me if you have >1000 cards."}
           </p>
         </div>
       )}
