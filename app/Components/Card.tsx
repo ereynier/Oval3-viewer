@@ -8,9 +8,10 @@ interface CardProps {
   metadata?: any
   additionals?: any
   stats?: any
+  loading?: boolean
 }
 
-const Card = ({ metadata, additionals, stats }: CardProps) => {
+const Card = ({ metadata, additionals, stats, loading }: CardProps) => {
 
   const [open, setOpen] = React.useState<boolean>(false)
 
@@ -28,10 +29,10 @@ const Card = ({ metadata, additionals, stats }: CardProps) => {
           <div onClick={handleClick} className='w-full h-full flex flex-col items-center justify-center'>
             <CardItem translateZ="100" className="w-full h-auto" as={"button"}>
               <Image
-                src={metadata?.image || "/images/card-placeholder.webp"}
+                src={(!loading && metadata?.image) || "/images/card-placeholder.webp"}
                 height="977"
                 width="640"
-                className="object-cover rounded-xl group-hover/card:shadow-xl"
+                className={`object-cover rounded-xl group-hover/card:shadow-xl ${loading ? "animate-pulse" : ""}`}
                 alt={`${metadata?.name} card`}
               />
             </CardItem>
