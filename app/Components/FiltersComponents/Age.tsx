@@ -19,11 +19,11 @@ const Age = ({ setFilters, filters }: AgeProps) => {
 
     const handleSliderChange = (values: any) => {
         setSliderValues(values);
-        setFilters({ ...filters, age: values })
+        // setFilters({ ...filters, age: values })
     };
 
     const handleSliderCommit = (values: any) => {
-        // setFilters({ ...filters, age: values })
+        setFilters({ ...filters, age: values })
     };
 
     useEffect(() => {

@@ -34,13 +34,21 @@ interface FiltersProps {
 const Filters = ({ setFilters, filters }: FiltersProps) => {
 
     const [nbFilters, setNbFilters] = React.useState<number>(0)
+    const [nbTmpFilters, setNbTmpFilters] = React.useState<number>(0)
+    const [tmpFilters, setTmpFilters] = React.useState<any>(filters)
 
     useEffect(() => {
         setNbFilters(Object.keys(filters).filter((key) => filters[key] !== { ...emptyFilters }[key]).length)
-    }, [filters])
+        setNbTmpFilters(Object.keys(tmpFilters).filter((key) => tmpFilters[key] !== { ...filters }[key]).length)
+    }, [filters, tmpFilters])
+
+    const handleResetFilters = () => {
+        setTmpFilters({ ...emptyFilters })
+        setFilters({ ...emptyFilters })
+    }
 
     return (
-        <Sheet>
+        <Sheet onOpenChange={(open) => {!open && setTmpFilters({...filters})}}>
             <SheetTrigger className='relative flex flex-row gap-2 hover:bg-secondary rounded-lg border w-full sm:w-[180px] h-10 justify-between p-2 items-center bg-background'>
                 <p>Filters</p>
                 <ListFilter size={24} />
@@ -60,41 +68,44 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
                 </SheetHeader>
                 <ScrollArea className='h-full w-full p-0 pb-[50px]'>
                     <div className="flex flex-col items-start gap-4 justify-center my-4 p-1">
-                        <Button disabled={nbFilters == 0} onClick={() => { setFilters({ ...emptyFilters }) }} className={`w-full mb-1`} variant='default'>Reset filters</Button>
+                        <div className='grid grid-cols-3 gap-2 col-span-3 items-center justify-between w-full'>
+                            <Button disabled={nbTmpFilters == 0} onClick={() => { setFilters({ ...tmpFilters }) }} className={`w-full mb-1 col-span-2`} variant='default'>Apply filters</Button>
+                            <Button disabled={nbFilters == 0} onClick={() => handleResetFilters()} className={`w-full mb-1 col-span-1`} variant='destructive'>Reset</Button>
+                        </div>
                         <CollapseProvider name="Name">
-                            <Name filters={filters} setFilters={setFilters} />
+                            <Name filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Rarity">
-                            <Rarity filters={filters} setFilters={setFilters} />
+                            <Rarity filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Clubs">
-                            <Clubs filters={filters} setFilters={setFilters} />
+                            <Clubs filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Position">
-                            <Position filters={filters} setFilters={setFilters} />
+                            <Position filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Score">
-                            <Score filters={filters} setFilters={setFilters} />
+                            <Score filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Stats">
-                            <Stats filters={filters} setFilters={setFilters} />
+                            <Stats filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Age">
-                            <Age filters={filters} setFilters={setFilters} />
+                            <Age filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Leagues">
-                            <Leagues filters={filters} setFilters={setFilters} />
+                            <Leagues filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Nationality">
-                            <Countries filters={filters} setFilters={setFilters} />
+                            <Countries filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                     </div>
                 </ScrollArea>

@@ -29,11 +29,11 @@ const Stats = ({ setFilters, filters }: StatsProps) => {
         if (stat === "impact") setImpactSliderValues(values);
         if (stat === "skills") setSkillsSliderValues(values);
 
-        setFilters({ ...filters, stats: { ...filters.stats, [stat]: values } });
+        // setFilters({ ...filters, stats: { ...filters.stats, [stat]: values } });
     };
 
     const handleSliderCommit = (values: any, stat: string) => {
-        //setFilters({ ...filters, stats: { ...filters.stats, [stat]: values } });
+        setFilters({ ...filters, stats: { ...filters.stats, [stat]: values } });
     };
 
     useEffect(() => {

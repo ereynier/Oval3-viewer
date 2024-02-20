@@ -373,8 +373,8 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
             <div className='w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 py-4 px-8 sm:px-12 md:px-24 xl:px-48 gap-12'>
                 {data && data.tokens && sortData(Object.values(cards)).map((card: any, index: number) => (
                     card = card.metadata.token,
-                    (cards[card] && isFiltered(cards[card]) &&
-                        <div key={index} className="">
+                    (cards[card] &&
+                        <div key={index} className={`${isFiltered(cards[card]) ? "" : "hidden"}`}>
                             <Card metadata={cards[card].metadata} additionals={cards[card].additional} stats={cards[card].stats} />
                         </div>
                     )
