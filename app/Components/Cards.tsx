@@ -29,6 +29,7 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
     // fetch here, and pass the data to the Card component
     const [cards, setCards] = React.useState<any>({})
     const [loading, setLoading] = React.useState<boolean>(false)
+    const [nbFetch, setNbFetch] = React.useState<number>(0)
 
     // React.useEffect(() => {
     //     if (!data) return;
@@ -162,6 +163,7 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
 
         const fetchData = async () => {
             setLoading(true);
+            setNbFetch(0)
             for (const item of data.tokens) {
                 const res1 = await fetch(`/api/metadata/${item}`);
                 const metadata = await res1.json();
@@ -188,7 +190,7 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
                 });
                 const additional = await res2.json();
                 if (!additional || additional.errors) continue;
-                
+
                 const res3 = await fetch(`https://score.oval3.game/api/scoring/player/${additional.data.Card.optaId}`);
                 const stats = await res3.json();
                 if (!stats || stats.error) continue;
@@ -202,6 +204,7 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
                         }
                     }
                 });
+                setNbFetch((prev) => prev + 1)
                 if (data.tokens.indexOf(item) == data.tokens.length - 1) {
                     setLoading(false);
                 }
@@ -327,6 +330,7 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
                             alt={"empty card"}
                         />
                         <RugbyLoader zIndex={-5} />
+                        <p className="absolute text-foreground top-3 left-3 -z-10">{nbFetch}/{data.tokens.length}</p>
                     </div>
                 )}
             </div>
