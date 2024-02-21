@@ -28,15 +28,18 @@ const Card = ({ metadata, additionals, stats }: CardProps) => {
           <div onClick={handleClick} className='w-full h-full flex flex-col items-center justify-center'>
             <CardItem translateZ="100" className="w-full h-auto" as={"button"}>
               <Image
-                src={metadata?.image || "/images/card-placeholder.webp"}
+                src={(metadata?.image ? "https://medias.oval3.game/img/public/resize?url=" + metadata?.image + "&width=300" : "/images/card-placeholder.webp")}
                 height="977"
                 width="640"
-                className="object-cover rounded-xl group-hover/card:shadow-xl"
+                className={`object-cover rounded-xl group-hover/card:shadow-xl`}
                 alt={`${metadata?.name} card`}
               />
             </CardItem>
             <CardItem translateZ={"130"} className='absolute top-0 right-0 h-full w-1/4 opacity-0 group-hover/card:opacity-90'>
               <Image className='w-fit h-full object-fill' src={`https://marketplace.oval3.game/img/labels/${String(additionals?.Card.rarity).toLowerCase().replace(" ", "")}.png`} alt="rarity" height="450" width="450" />
+            </CardItem>
+            <CardItem translateZ={"130"} className='absolute bottom-0 top-0 h-fit w-full'>
+              <p className='text-lg sm:text-xl font-bold text-white opacity-60 group-hover/card:opacity-90 text-center cursor-pointer'>{additionals?.Card.score}</p>
             </CardItem>
           </div>
         </CardBody>

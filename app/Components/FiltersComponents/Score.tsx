@@ -19,11 +19,11 @@ const Score = ({ setFilters, filters }: ScoreProps) => {
 
     const handleSliderChange = (values: any) => {
         setSliderValues(values);
-        setFilters({ ...filters, score: values })
+        // setFilters({ ...filters, score: values })
     };
 
     const handleSliderCommit = (values: any) => {
-        // setFilters({ ...filters, score: values })
+        setFilters({ ...filters, score: values })
     };
 
     useEffect(() => {

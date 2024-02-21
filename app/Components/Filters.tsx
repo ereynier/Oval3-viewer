@@ -25,6 +25,7 @@ import Countries from './FiltersComponents/Countries'
 import Leagues from './FiltersComponents/Leagues'
 import CollapseProvider from '@/components/CollapseProvider'
 import { emptyFilters } from '@/utils/emptyFilters'
+import { useNbCardStore } from '@/utils/store/NbCardStore'
 
 interface FiltersProps {
     filters: any
@@ -34,15 +35,28 @@ interface FiltersProps {
 const Filters = ({ setFilters, filters }: FiltersProps) => {
 
     const [nbFilters, setNbFilters] = React.useState<number>(0)
+    const [nbTmpFilters, setNbTmpFilters] = React.useState<number>(0)
+    const [tmpFilters, setTmpFilters] = React.useState<any>(filters)
+    const nbCard = useNbCardStore(state => state.nbCard)
+    const nbFilteredCard = useNbCardStore(state => state.nbFilteredCard)
 
     useEffect(() => {
         setNbFilters(Object.keys(filters).filter((key) => filters[key] !== { ...emptyFilters }[key]).length)
-    }, [filters])
+        setNbTmpFilters(Object.keys(tmpFilters).filter((key) => tmpFilters[key] !== { ...filters }[key]).length)
+    }, [filters, tmpFilters])
+
+    const handleResetFilters = () => {
+        setTmpFilters({ ...emptyFilters })
+        setFilters({ ...emptyFilters })
+    }
 
     return (
-        <Sheet>
-            <SheetTrigger className='relative flex flex-row gap-2 hover:bg-secondary rounded-lg border w-full sm:w-[180px] h-10 justify-between p-2 items-center bg-background'>
+        <Sheet onOpenChange={(open) => { !open && setTmpFilters({ ...filters }) }}>
+            <SheetTrigger className='relative flex flex-row gap-2 hover:bg-secondary rounded-lg border w-full sm:w-fit sm:min-w-[180px] h-10 justify-between p-2 items-center bg-background'>
+                <div className='flex flex-row gap-2 items-end justify-between w-full'>
                 <p>Filters</p>
+                <p className='text-xs text-muted-foreground'>{nbFilteredCard}/{nbCard}</p>
+                </div>
                 <ListFilter size={24} />
                 {nbFilters > 0 && (
                     <div className='absolute top-0 right-0 -mt-2 -mr-2 bg-primary text-primary-foreground rounded-full h-5 w-5 flex items-center justify-center'>
@@ -51,50 +65,56 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
                 )}
             </SheetTrigger>
             <SheetContent side={"left"} className='p-2 sm:p-4'>
-                <SheetHeader>
+                <SheetHeader className='items-start'>
                     <SheetTitle>Filters</SheetTitle>
-                    <SheetDescription className='flex flex-col gap-2'>
-                        {"Select the filters you want to apply"}
+                    <SheetDescription className='flex flex-col gap-2 w-full'>
+                        <div className='flex flex-col gap-0 justify-between w-full items-start text-start'>
+                            <p>{"Select the filters you want to apply"}</p>
+                            <p>{nbFilteredCard} / {nbCard} cards</p>
+                        </div>
                         <Separator className='shadow-lg shadow-black' />
                     </SheetDescription>
                 </SheetHeader>
                 <ScrollArea className='h-full w-full p-0 pb-[50px]'>
                     <div className="flex flex-col items-start gap-4 justify-center my-4 p-1">
-                        <Button disabled={nbFilters == 0} onClick={() => { setFilters({ ...emptyFilters }) }} className={`w-full mb-1`} variant='default'>Reset filters</Button>
+                        <div className='grid grid-cols-3 gap-2 col-span-3 items-center justify-between w-full'>
+                            <Button disabled={nbTmpFilters == 0} onClick={() => { setFilters({ ...tmpFilters }) }} className={`w-full mb-1 col-span-2`} variant='default'>Apply filters</Button>
+                            <Button disabled={nbFilters == 0} onClick={() => handleResetFilters()} className={`w-full mb-1 col-span-1`} variant='destructive'>Reset</Button>
+                        </div>
                         <CollapseProvider name="Name">
-                            <Name filters={filters} setFilters={setFilters} />
+                            <Name filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Rarity">
-                            <Rarity filters={filters} setFilters={setFilters} />
+                            <Rarity filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Clubs">
-                            <Clubs filters={filters} setFilters={setFilters} />
+                            <Clubs filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Position">
-                            <Position filters={filters} setFilters={setFilters} />
+                            <Position filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Score">
-                            <Score filters={filters} setFilters={setFilters} />
+                            <Score filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Stats">
-                            <Stats filters={filters} setFilters={setFilters} />
+                            <Stats filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Age">
-                            <Age filters={filters} setFilters={setFilters} />
+                            <Age filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Leagues">
-                            <Leagues filters={filters} setFilters={setFilters} />
+                            <Leagues filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Nationality">
-                            <Countries filters={filters} setFilters={setFilters} />
+                            <Countries filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                     </div>
                 </ScrollArea>

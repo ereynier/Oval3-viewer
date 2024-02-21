@@ -1,5 +1,5 @@
 "use client"
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Card from './Card'
 import _ from 'lodash';
 
@@ -7,11 +7,11 @@ import countries from "@/utils/datas/countries.json";
 import RugbyLoader from '@/components/RugbyLoader';
 import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
+import { useNbCardStore } from '@/utils/store/NbCardStore';
+import { useOrderStore } from '@/utils/store/OrderStore';
 
 interface CardsProps {
     data: any
-    sortBy: string
-    order: string
     filters: any
 }
 
@@ -22,193 +22,86 @@ enum Rarity {
     "UNIQUE"
 }
 
-const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
+const Cards = ({ data, filters }: CardsProps) => {
     // https://medias.oval3.game/metadata/3
     // sortBy: id, rarity, score, club
 
     // fetch here, and pass the data to the Card component
     const [cards, setCards] = React.useState<any>({})
     const [loading, setLoading] = React.useState<boolean>(false)
-    const [nbFetch, setNbFetch] = React.useState<number>(0)
+    const [nbFetched, setNbFetched] = React.useState<number>(0)
+    const setNbCard = useNbCardStore((state: any) => state.setNbCard);
+    const setNbFilteredCard = useNbCardStore((state: any) => state.setNbFilteredCard);
+    const sortBy = useOrderStore((state: any) => state.sortBy);
+    const order = useOrderStore((state: any) => state.order);
 
-    // React.useEffect(() => {
-    //     if (!data) return;
-    //     const fetchPromises = data?.tokens.map((item: any, index: number) =>
-    //         fetch(`/api/metadata/${item}`)
-    //             .then(res => res.json())
-    //             .then(data => ({ index, data: data.data }))
-    //     );
-
-    //     const fetchAdditionalsPromises = data?.tokens.map((item: any, index: number) =>
-    //         fetch("https://api.oval3.game/graphql/", {
-    //             "credentials": "omit",
-    //             "headers": {
-    //                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0",
-    //                 "Accept": "*/*",
-    //                 "Accept-Language": "en-US,en;q=0.5",
-    //                 "content-type": "application/json",
-    //                 "apollographql-client-name": "era2140-oval3",
-    //                 "apollographql-client-version": "0.0.1",
-    //                 "Access-Control-Allow-Origin": "*",
-    //                 "Sec-Fetch-Dest": "empty",
-    //                 "Sec-Fetch-Mode": "cors",
-    //                 "Sec-Fetch-Site": "same-site"
-    //             },
-    //             "referrer": "https://marketplace.oval3.game/",
-    //             "body": "{\"operationName\":\"findCard\",\"variables\":{\"tokenId\":\"" + String(item) + "\",\"similarPlayer\":true},\"query\":\"query findCard($tokenId: String!, $similarPlayer: Boolean) {\\n  Card(tokenId: $tokenId, similarCard: $similarPlayer) {\\n    tokenId\\n    rarity\\n    owner {\\n      address\\n    }\\n    edition\\n    international\\n    academy\\n    similarPlayers {\\n      image\\n      tokenId\\n    }\\n    optaId\\n    season\\n    competition\\n    club {\\n      name\\n      clubCode\\n    }\\n    bidCount\\n    score\\n    image\\n    firstname\\n    lastname\\n    position\\n    age\\n    nationality\\n    listingStatus\\n    amount\\n    endTime\\n  }\\n}\"}",
-    //             "method": "POST",
-    //             "mode": "cors"
-    //         }).then(res => res.json())
-    //             .then(data => ({ index, data: data }))
-    //             .catch(error => error)
-    //     );
-
-    //     Promise.all(fetchPromises)
-    //         .then(results => {
-    //             const tmpMetadatas: any = {};
-    //             results.forEach(({ index, data }) => {
-    //                 tmpMetadatas[data.token] = data;
-    //             });
-    //             setMetadatas(tmpMetadatas);
-    //         })
-    //         .catch(error => console.error(error));
-
-    //     const tmpAdditionals: any = {};
-    //     Promise.all(fetchAdditionalsPromises)
-    //         .then(results => {
-    //             results.forEach(({ index, data }) => {
-    //                 tmpAdditionals[data.data.Card.tokenId] = data.data;
-    //             });
-    //             setAdditionals(tmpAdditionals);
-    //         })
-    //         .then(() => {
-    //             const fetchStatsPromises = Object.keys(tmpAdditionals).map((key: any) => {
-    //                 const item = tmpAdditionals[key];
-    //                 return fetch(`https://score.oval3.game/api/scoring/player/${item.Card.optaId}`)
-    //                     .then(res => res.json())
-    //                     .then(data => ({ key, data: data }))
-    //                     .catch(error => error)
-    //             });
-
-    //             Promise.all(fetchStatsPromises)
-    //                 .then(results => {
-    //                     const tmpStats: any = {};
-    //                     results.forEach(({ key, data }) => {
-    //                         tmpStats[key] = data.data;
-    //                     });
-    //                     setStats(tmpStats);
-    //                 })
-    //                 .catch(error => console.error(error));
-
-    //         })
-    //         .catch(error => console.error(error));
-
-    // }, [data]);
 
     const prevDataRef = useRef();
     React.useEffect(() => {
         if (!data) return;
         if (!data || _.isEqual(data, prevDataRef.current)) return;
+        setNbCard(data.tokens.length);
         prevDataRef.current = data;
         setCards({})
         console.log("fetching cards", data.tokens.length)
 
-        // function bulkFetch() {
-        // data?.tokens.forEach(async (item: any, index: number) => {
-        //     fetch(`/api/metadata/${item}`)
-        //         .then(res => res.json())
-        //         .then(async metadata => {
-        //             if (metadata == undefined || metadata.error) return
-        //             fetch("https://api.oval3.game/graphql/", {
-        //                 "credentials": "omit",
-        //                 "headers": {
-        //                     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0",
-        //                     "Accept": "*/*",
-        //                     "Accept-Language": "en-US,en;q=0.5",
-        //                     "content-type": "application/json",
-        //                     "apollographql-client-name": "era2140-oval3",
-        //                     "apollographql-client-version": "0.0.1",
-        //                     "Access-Control-Allow-Origin": "*",
-        //                     "Sec-Fetch-Dest": "empty",
-        //                     "Sec-Fetch-Mode": "cors",
-        //                     "Sec-Fetch-Site": "same-site"
-        //                 },
-        //                 "referrer": "https://marketplace.oval3.game/",
-        //                 "body": "{\"operationName\":\"findCard\",\"variables\":{\"tokenId\":\"" + String(item) + "\",\"similarPlayer\":true},\"query\":\"query findCard($tokenId: String!, $similarPlayer: Boolean) {\\n  Card(tokenId: $tokenId, similarCard: $similarPlayer) {\\n    tokenId\\n    rarity\\n    owner {\\n      address\\n    }\\n    edition\\n    international\\n    academy\\n    similarPlayers {\\n      image\\n      tokenId\\n    }\\n    optaId\\n    season\\n    competition\\n    club {\\n      name\\n      clubCode\\n    }\\n    bidCount\\n    score\\n    image\\n    firstname\\n    lastname\\n    position\\n    age\\n    nationality\\n    listingStatus\\n    amount\\n    endTime\\n  }\\n}\"}",
-        //                 "method": "POST",
-        //                 "mode": "cors"
-        //             })
-        //                 .then(res => res.json())
-        //                 .then(async additional => {
-        //                     if (!additional || additional.errors ) return
-        //                     fetch(`https://score.oval3.game/api/scoring/player/${additional.data.Card.optaId}`)
-        //                         .then(res => res.json())
-        //                         .then(stats => {
-        //                             if (!stats || stats.error) return
-        //                             setCards((prev: any) => {
-        //                                 return {
-        //                                     ...prev,
-        //                                     [item]: {
-        //                                         metadata: metadata.data,
-        //                                         additional: additional.data,
-        //                                         stats: stats.data
-        //                                     }
-        //                                 }
-        //                             })
-        //                         });
-        //                 });
-        //         });
-        // });
-        // }
-
         const fetchData = async () => {
             setLoading(true);
-            setNbFetch(0)
-            for (const item of data.tokens) {
-                const res1 = await fetch(`/api/metadata/${item}`);
-                const metadata = await res1.json();
-                if (metadata == undefined || metadata.error) continue;
+            setNbFetched(0);
 
-                const res2 = await fetch("https://api.oval3.game/graphql/", {
-                    "credentials": "omit",
-                    "headers": {
-                        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0",
-                        "Accept": "*/*",
-                        "Accept-Language": "en-US,en;q=0.5",
-                        "content-type": "application/json",
-                        "apollographql-client-name": "era2140-oval3",
-                        "apollographql-client-version": "0.0.1",
-                        "Access-Control-Allow-Origin": "*",
-                        "Sec-Fetch-Dest": "empty",
-                        "Sec-Fetch-Mode": "cors",
-                        "Sec-Fetch-Site": "same-site"
-                    },
-                    "referrer": "https://marketplace.oval3.game/",
-                    "body": "{\"operationName\":\"findCard\",\"variables\":{\"tokenId\":\"" + String(item) + "\",\"similarPlayer\":true},\"query\":\"query findCard($tokenId: String!, $similarPlayer: Boolean) {\\n  Card(tokenId: $tokenId, similarCard: $similarPlayer) {\\n    tokenId\\n    rarity\\n    owner {\\n      address\\n    }\\n    edition\\n    international\\n    academy\\n    similarPlayers {\\n      image\\n      tokenId\\n    }\\n    optaId\\n    season\\n    competition\\n    club {\\n      name\\n      clubCode\\n    }\\n    bidCount\\n    score\\n    image\\n    firstname\\n    lastname\\n    position\\n    age\\n    nationality\\n    listingStatus\\n    amount\\n    endTime\\n  }\\n}\"}",
-                    "method": "POST",
-                    "mode": "cors"
-                });
-                const additional = await res2.json();
-                if (!additional || additional.errors) continue;
+            const batchSize = 20; // Set your batch size here
+            const results = [];
 
-                const res3 = await fetch(`https://score.oval3.game/api/scoring/player/${additional.data.Card.optaId}`);
-                const stats = await res3.json();
-                if (!stats || stats.error) continue;
-                setCards((prev: any) => {
+            for (let i = 0; i < data.tokens.length; i += batchSize) {
+                const batch = data.tokens.slice(i, i + batchSize);
+                const promises = batch.map(async (item: any) => {
+                    const res1 = await fetch(`/api/metadata/${item}`);
+                    const metadata = await res1.json();
+                    if (metadata == undefined || metadata.error) return;
+
+                    const res2 = await fetch("https://api.oval3.game/graphql/", {
+                        "credentials": "omit",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0",
+                            "Accept": "*/*",
+                            "Accept-Language": "en-US,en;q=0.5",
+                            "content-type": "application/json",
+                            "apollographql-client-name": "era2140-oval3",
+                            "apollographql-client-version": "0.0.1",
+                            "Access-Control-Allow-Origin": "*",
+                            "Sec-Fetch-Dest": "empty",
+                            "Sec-Fetch-Mode": "cors",
+                            "Sec-Fetch-Site": "same-site"
+                        },
+                        "referrer": "https://marketplace.oval3.game/",
+                        "body": "{\"operationName\":\"findCard\",\"variables\":{\"tokenId\":\"" + String(item) + "\",\"similarPlayer\":true},\"query\":\"query findCard($tokenId: String!, $similarPlayer: Boolean) {\\n  Card(tokenId: $tokenId, similarCard: $similarPlayer) {\\n    tokenId\\n    rarity\\n    owner {\\n      address\\n    }\\n    edition\\n    international\\n    academy\\n    similarPlayers {\\n      image\\n      tokenId\\n    }\\n    optaId\\n    season\\n    competition\\n    club {\\n      name\\n      clubCode\\n    }\\n    bidCount\\n    score\\n    image\\n    firstname\\n    lastname\\n    position\\n    age\\n    nationality\\n    listingStatus\\n    amount\\n    endTime\\n  }\\n}\"}",
+                        "method": "POST",
+                        "mode": "cors"
+                    });
+                    const additional = await res2.json();
+                    if (!additional || additional.errors) return;
+
+                    const res3 = await fetch(`https://score.oval3.game/api/scoring/player/${additional.data.Card.optaId}`);
+                    const stats = await res3.json();
+                    if (!stats || stats.error) return;
+
                     return {
-                        ...prev,
                         [item]: {
                             metadata: metadata.data,
                             additional: additional.data,
                             stats: stats.data
                         }
-                    }
+                    };
                 });
-                setNbFetch((prev) => prev + 1)
-                if (data.tokens.indexOf(item) == data.tokens.length - 1) {
-                    setLoading(false);
-                }
+
+                const batchResults = await Promise.all(promises);
+                results.push(...batchResults);
+                const newCards = results.reduce((acc, result) => ({ ...acc, ...result }), {});
+                setCards((prev: any) => ({ ...prev, ...newCards }));
+                setNbFetched((prev) => prev + batchSize);
             }
+
+            setLoading(false);
         };
 
         fetchData();
@@ -308,14 +201,27 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
         return true
     }
 
+    const countFiltered = () => {
+        let count = 0
+        for (const card in cards) {
+            if (isFiltered(cards[card])) {
+                count++
+            }
+        }
+        return count
+    }
+
+    useEffect(() => {
+        setNbFilteredCard(countFiltered())
+    }, [filters, cards])
 
     return (
         <div className='w-full h-full mt-6'>
             <div className='w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 py-4 px-8 sm:px-12 md:px-24 xl:px-48 gap-12'>
                 {data && data.tokens && sortData(Object.values(cards)).map((card: any, index: number) => (
                     card = card.metadata.token,
-                    (cards[card] && isFiltered(cards[card]) &&
-                        <div key={index} className="">
+                    (cards[card] &&
+                        <div key={index} className={`${isFiltered(cards[card]) ? "" : "hidden"}`}>
                             <Card metadata={cards[card].metadata} additionals={cards[card].additional} stats={cards[card].stats} />
                         </div>
                     )
@@ -329,8 +235,8 @@ const Cards = ({ data, sortBy, order, filters }: CardsProps) => {
                             className="object-cover rounded-xl group-hover/card:shadow-xl opacity-75 animate-pulse"
                             alt={"empty card"}
                         />
-                        <RugbyLoader zIndex={-5} />
-                        <p className="absolute text-foreground top-3 left-3 -z-10">{nbFetch}/{data.tokens.length}</p>
+                        <RugbyLoader />
+                        <p className='fixed text-xs font-semibold left-1 bottom-0 z-10 text-gray-600'>{nbFetched} / {data.tokens.length}</p>
                     </div>
                 )}
             </div>
