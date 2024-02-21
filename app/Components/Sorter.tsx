@@ -10,14 +10,15 @@ import {
 } from "@/components/ui/select"
 import { Button } from '@/components/ui/button'
 import { ArrowDown10, ArrowUp10 } from 'lucide-react'
+import { useOrderStore } from '@/utils/store/OrderStore'
 
-interface SorterProps {
-    setSortBy: (value: string) => void
-    toggleOrder: () => void
-    order: string
-}
 
-const Sorter = ({ setSortBy, toggleOrder, order }: SorterProps) => {
+
+const Sorter = () => {
+    const setSortBy = useOrderStore(state => state.setSortBy)
+    const toggleOrder = useOrderStore(state => state.toggleOrder)
+    const order = useOrderStore(state => state.order)
+
     return (
         <div className="flex flex-row items-center justify-center gap-2 w-full sm:w-fit">
             <Select onValueChange={setSortBy}>

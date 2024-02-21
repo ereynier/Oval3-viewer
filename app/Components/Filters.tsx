@@ -25,6 +25,7 @@ import Countries from './FiltersComponents/Countries'
 import Leagues from './FiltersComponents/Leagues'
 import CollapseProvider from '@/components/CollapseProvider'
 import { emptyFilters } from '@/utils/emptyFilters'
+import { useNbCardStore } from '@/utils/store/NbCardStore'
 
 interface FiltersProps {
     filters: any
@@ -36,6 +37,8 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
     const [nbFilters, setNbFilters] = React.useState<number>(0)
     const [nbTmpFilters, setNbTmpFilters] = React.useState<number>(0)
     const [tmpFilters, setTmpFilters] = React.useState<any>(filters)
+    const nbCard = useNbCardStore(state => state.nbCard)
+    const nbFilteredCard = useNbCardStore(state => state.nbFilteredCard)
 
     useEffect(() => {
         setNbFilters(Object.keys(filters).filter((key) => filters[key] !== { ...emptyFilters }[key]).length)
@@ -48,9 +51,12 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
     }
 
     return (
-        <Sheet onOpenChange={(open) => {!open && setTmpFilters({...filters})}}>
-            <SheetTrigger className='relative flex flex-row gap-2 hover:bg-secondary rounded-lg border w-full sm:w-[180px] h-10 justify-between p-2 items-center bg-background'>
+        <Sheet onOpenChange={(open) => { !open && setTmpFilters({ ...filters }) }}>
+            <SheetTrigger className='relative flex flex-row gap-2 hover:bg-secondary rounded-lg border w-full sm:w-fit sm:min-w-[180px] h-10 justify-between p-2 items-center bg-background'>
+                <div className='flex flex-row gap-2 items-end justify-between w-full'>
                 <p>Filters</p>
+                <p className='text-xs text-muted-foreground'>{nbFilteredCard}/{nbCard}</p>
+                </div>
                 <ListFilter size={24} />
                 {nbFilters > 0 && (
                     <div className='absolute top-0 right-0 -mt-2 -mr-2 bg-primary text-primary-foreground rounded-full h-5 w-5 flex items-center justify-center'>
@@ -59,10 +65,13 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
                 )}
             </SheetTrigger>
             <SheetContent side={"left"} className='p-2 sm:p-4'>
-                <SheetHeader>
+                <SheetHeader className='items-start'>
                     <SheetTitle>Filters</SheetTitle>
-                    <SheetDescription className='flex flex-col gap-2'>
-                        {"Select the filters you want to apply"}
+                    <SheetDescription className='flex flex-col gap-2 w-full'>
+                        <div className='flex flex-col gap-0 justify-between w-full items-start text-start'>
+                            <p>{"Select the filters you want to apply"}</p>
+                            <p>{nbFilteredCard} / {nbCard} cards</p>
+                        </div>
                         <Separator className='shadow-lg shadow-black' />
                     </SheetDescription>
                 </SheetHeader>
