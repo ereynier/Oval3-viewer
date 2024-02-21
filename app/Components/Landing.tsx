@@ -24,8 +24,8 @@ const Landing = () => {
           <Sorter />
         </div>
       </div>
-      {data && data.tokens && (data.tokens).length < 1000 && (<Cards data={data} filters={filters} />)}
-      {data && !data.tokens && (
+      {data && data.tokens && (data.tokens).length < 1000 && (data.tokens).length > 0 && (<Cards data={data} filters={filters} />)}
+      {data && (!data.tokens || (data.tokens).length == 0) && (
         <div className="flex flex-col items-center justify-center gap-8 w-full max-w-4xl mt-36">
           <p className="text-center text-4xl sm:text-5xl font-bold relative bg-clip-text text-neutral-800 dark:text-neutral-300">
             No cards found
