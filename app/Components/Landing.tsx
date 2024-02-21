@@ -38,13 +38,14 @@ const Landing = () => {
       {!data && !isLoading && (
         <div className="absolute inset-0 -z-[1] flex flex-col items-center justify-center">
           <p className="text-center text-5xl sm:text-7xl font-bold relative bg-clip-text text-transparent bg-gradient-to-b from-green-200 to-green-500 py-8">
-            Oval3 Viewer
+            Oval3 Viewer 
           </p>
           <p className="text-center text-3xl sm:text-4xl font-bold relative bg-clip-text text-neutral-800 dark:text-neutral-300">
             Check your cards
           </p>
         </div>
       )}
+
       {data && data.tokens && (data.tokens).length >= 1000 && (
         <div className="flex flex-col items-center justify-center gap-8 w-full max-w-4xl mt-36 px-4">
           <p className="text-center text-4xl sm:text-5xl font-bold relative bg-clip-text text-neutral-800 dark:text-neutral-300">
@@ -55,6 +56,7 @@ const Landing = () => {
           </p>
         </div>
       )}
+      <p className="fixed text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-green-200 to-green-500 bottom-3 right-3 -z-5 ">beta</p>
     </div>
   );
 }

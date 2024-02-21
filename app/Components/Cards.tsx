@@ -35,6 +35,7 @@ const Cards = ({ data, filters }: CardsProps) => {
     const sortBy = useOrderStore((state: any) => state.sortBy);
     const order = useOrderStore((state: any) => state.order);
 
+
     const prevDataRef = useRef();
     React.useEffect(() => {
         if (!data) return;
