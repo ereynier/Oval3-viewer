@@ -97,6 +97,8 @@ The web app is a simple way to explore the Oval3 cards by their owners. You can 
 * [![React][React.js]][React-url]
 * [![TailwindCSS][Tailwindcss]][Tailwindcss-url]
 * [![Viem][Viem.sh]][Viem-url]
+* [![Prisma][Prisma.io]][Prisma-url]
+* [![PostgreSQL][PostgreSQL]][PostgreSQL-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -259,3 +261,7 @@ Project Link: [https://github.com/ereynier/Oval3-viewer](https://github.com/erey
 [Tailwindcss-url]: https://tailwindcss.com/
 [Viem.sh]: https://img.shields.io/badge/Viem-000000?style=for-the-badge&logo=Ethereum&logoColor=EEEEEE
 [Viem-url]: https://viem.sh/
+[PostgreSQL]: https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white
+[PostgreSQL-url]: https://www.postgresql.org/
+[Prisma.io]: https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white
+[Prisma-url]: https://www.prisma.io/
