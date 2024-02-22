@@ -50,5 +50,7 @@ export const emptyFilters = {
         acc[country.name] = true;
         return acc;
       }, {})
-    }
+    },
+    gw_score: [0, 100],
+    hide_gw_na: false
   }

@@ -26,6 +26,8 @@ import Leagues from './FiltersComponents/Leagues'
 import CollapseProvider from '@/components/CollapseProvider'
 import { emptyFilters } from '@/utils/emptyFilters'
 import { useNbCardStore } from '@/utils/store/NbCardStore'
+import GWScore from './FiltersComponents/GWScore'
+import _ from 'lodash'
 
 interface FiltersProps {
     filters: any
@@ -35,27 +37,29 @@ interface FiltersProps {
 const Filters = ({ setFilters, filters }: FiltersProps) => {
 
     const [nbFilters, setNbFilters] = React.useState<number>(0)
-    const [nbTmpFilters, setNbTmpFilters] = React.useState<number>(0)
     const [tmpFilters, setTmpFilters] = React.useState<any>(filters)
     const nbCard = useNbCardStore(state => state.nbCard)
     const nbFilteredCard = useNbCardStore(state => state.nbFilteredCard)
 
     useEffect(() => {
-        setNbFilters(Object.keys(filters).filter((key) => filters[key] !== { ...emptyFilters }[key]).length)
-        setNbTmpFilters(Object.keys(tmpFilters).filter((key) => tmpFilters[key] !== { ...filters }[key]).length)
-    }, [filters, tmpFilters])
+        setNbFilters(Object.keys(filters).filter((key) => !_.isEqual(filters[key], { ...emptyFilters }[key])).length);
+    }, [filters])
 
     const handleResetFilters = () => {
         setTmpFilters({ ...emptyFilters })
         setFilters({ ...emptyFilters })
     }
 
+    const diffFilters = () => {
+        return Object.keys(filters).filter((key) => !_.isEqual(filters[key], { ...tmpFilters }[key])).length == 0;
+    }
+
     return (
         <Sheet onOpenChange={(open) => { !open && setTmpFilters({ ...filters }) }}>
             <SheetTrigger className='relative flex flex-row gap-2 hover:bg-secondary rounded-lg border w-full sm:w-fit sm:min-w-[180px] h-10 justify-between p-2 items-center bg-background'>
                 <div className='flex flex-row gap-2 items-end justify-between w-full'>
-                <p>Filters</p>
-                <p className='text-xs text-muted-foreground'>{nbFilteredCard}/{nbCard}</p>
+                    <p>Filters</p>
+                    <p className='text-xs text-muted-foreground'>{nbFilteredCard}/{nbCard}</p>
                 </div>
                 <ListFilter size={24} />
                 {nbFilters > 0 && (
@@ -75,10 +79,10 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
                         <Separator className='shadow-lg shadow-black' />
                     </SheetDescription>
                 </SheetHeader>
-                <ScrollArea className='h-full w-full p-0 pb-[50px]'>
+                <ScrollArea className='h-full w-full p-0 pb-[60px]'>
                     <div className="flex flex-col items-start gap-4 justify-center my-4 p-1">
                         <div className='grid grid-cols-3 gap-2 col-span-3 items-center justify-between w-full'>
-                            <Button disabled={nbTmpFilters == 0} onClick={() => { setFilters({ ...tmpFilters }) }} className={`w-full mb-1 col-span-2`} variant='default'>Apply filters</Button>
+                            <Button disabled={diffFilters()} onClick={() => { setFilters({ ...tmpFilters }) }} className={`w-full mb-1 col-span-2`} variant='default'>Apply filters</Button>
                             <Button disabled={nbFilters == 0} onClick={() => handleResetFilters()} className={`w-full mb-1 col-span-1`} variant='destructive'>Reset</Button>
                         </div>
                         <CollapseProvider name="Name">
@@ -116,6 +120,11 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
                         <CollapseProvider name="Nationality">
                             <Countries filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
+                        <Separator />
+                        <CollapseProvider name="Game Week Score">
+                            <GWScore filters={tmpFilters} setFilters={setTmpFilters} />
+                        </CollapseProvider>
+                        <Separator />
                     </div>
                 </ScrollArea>
             </SheetContent>
