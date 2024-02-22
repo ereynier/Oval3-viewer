@@ -21,7 +21,8 @@ const Sorter = () => {
     const setSortBy = useOrderStore(state => state.setSortBy)
     const toggleOrder = useOrderStore(state => state.toggleOrder)
     const order = useOrderStore(state => state.order)
-    const { display: gwDisplay, setDisplay: setGwDisplay } = useGWStore()
+    const gwDisplay = useGWStore(state => state.display)
+    const setGwDisplay = useGWStore(state => state.setDisplay)
 
     return (
         <div className="flex flex-row items-center justify-between gap-2 w-full sm:w-fit">
