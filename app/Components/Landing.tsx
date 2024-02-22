@@ -23,7 +23,7 @@ const Landing = () => {
           <Filters setFilters={setFilters} filters={filters} />
           <Sorter />
         </div>
-      </div
+      </div>
       {data && data.tokens && (data.tokens).length < 1000 && (data.tokens).length > 0 && (<Cards data={data} filters={filters} />)}
       {data && (!data.tokens || (data.tokens).length == 0) && (
         <div className="flex flex-col items-center justify-center gap-8 w-full max-w-4xl mt-36">
