@@ -37,7 +37,7 @@
 <h3 align="center">Oval3 Viewer</h3>
 
   <p align="center">
-    A Next.js web app that allows you to explore Oval3 cards by their owners, view their stats, and filter them based on various criteria.
+    A Next.js web app that allows you to explore Oval3 cards by their owners, view their stats, game week score, and filter them based on various criteria.
     <br />
     <a href="https://github.com/ereynier/Oval3-viewer"><strong>Explore the docs »</strong></a>
     <br />
