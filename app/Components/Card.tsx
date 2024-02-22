@@ -41,7 +41,7 @@ const Card = ({ metadata, additionals, stats }: CardProps) => {
               <Image className='w-fit h-full object-fill' src={`https://marketplace.oval3.game/img/labels/${String(additionals?.Card.rarity).toLowerCase().replace(" ", "")}.png`} alt="rarity" height="450" width="450" />
             </CardItem>
             <CardItem translateZ={"130"} className='absolute bottom-0 top-0 h-fit w-full'>
-              <p className='text-lg sm:text-xl font-bold text-white opacity-60 group-hover/card:opacity-90 text-center cursor-pointer'>{displayScore == "Score" ? additionals?.Card.score : getGWScore(stats.nb_games)}</p>
+              <p className={`text-lg sm:text-xl font-bold ${displayScore == "Score" ? "text-white opacity-60" : "bg-clip-text text-transparent bg-gradient-to-b from-green-200 to-green-500 opacity-80"}  group-hover/card:opacity-100 text-center cursor-pointer`}>{displayScore == "Score" ? additionals?.Card.score : getGWScore(stats.nb_games)}</p>
             </CardItem>
           </div>
         </CardBody>
