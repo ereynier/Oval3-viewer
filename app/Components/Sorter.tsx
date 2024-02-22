@@ -56,7 +56,7 @@ const Sorter = () => {
             </div>
             <div className="flex items-center space-x-2 w-fit">
                 <Switch checked={gwDisplay === "GW"} onCheckedChange={(v: boolean) => setGwDisplay(v)} />
-                <Label className='text-center whitespace-nowrap'>GW Mode</Label>
+                <Label className='text-center whitespace-nowrap'>{gwDisplay === "GW" ? "GW Score" : "Score"}</Label>
             </div>
         </div>
 
