@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import { useNbCardStore } from '@/utils/store/NbCardStore';
 import { useOrderStore } from '@/utils/store/OrderStore';
+import { getGWScore } from '@/utils/getGWScore';
 
 interface CardsProps {
     data: any
@@ -137,6 +138,19 @@ const Cards = ({ data, filters }: CardsProps) => {
                 } else {
                     return cards[b].metadata.attributes[4].value.localeCompare(cards[a].metadata.attributes[4].value);
                 }
+            } else if (sortBy === "gw_score") {
+                const aScore = getGWScore(cards[a].stats.nb_games)
+                const bScore = getGWScore(cards[b].stats.nb_games)
+                if (aScore === "N/A" && bScore === "N/A") return 0
+                if (aScore === "N/A" && order == "asc") return -1
+                if (aScore === "N/A" && order == "desc") return 1
+                if (bScore === "N/A" && order == "asc") return 1
+                if (bScore === "N/A" && order == "desc") return -1
+                if (order === "asc") {
+                    return Number(aScore) - Number(bScore);
+                } else {
+                    return Number(bScore) - Number(aScore);
+                }
             }
         });
         return sorted;
@@ -195,6 +209,20 @@ const Cards = ({ data, filters }: CardsProps) => {
         // Countries
         const playerCountry = countries.find((country: any) => country.code === card.metadata.attributes[2].value)
         if (playerCountry && !filters.countries[playerCountry.name]) {
+            return false
+        }
+        // Game Week Score
+        const gwScore = getGWScore(card.stats.nb_games)
+        if (gwScore !== "N/A") {
+            if ((Number(gwScore) < filters.gw_score[0] || Number(gwScore) > filters.gw_score[1])) {
+                return false
+            }
+        } else {
+            if (filters.gw_score[0] > 0) {
+                return false
+            }
+        }
+        if (filters.hide_gw_na && gwScore === "N/A") {
             return false
         }
 

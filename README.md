@@ -97,6 +97,8 @@ The web app is a simple way to explore the Oval3 cards by their owners. You can 
 * [![React][React.js]][React-url]
 * [![TailwindCSS][Tailwindcss]][Tailwindcss-url]
 * [![Viem][Viem.sh]][Viem-url]
+* [![Prisma][Prisma.io]][Prisma-url]
+* [![PostgreSQL][PostgreSQL]][PostgreSQL-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -146,7 +148,10 @@ In the `./scripts` folder, you can find some scripts to get the cards by address
     tsc TransferListener.ts
     node TransferListener.js
     ```
+3. In `.env.local` set `DATA_SOURCE` to `JSON`.
 
+The app can use a database to store the datas, you can find the scripts to fill the database in this repository: [https://github.com/ereynier/oval3-Owners](https://github.com/ereynier/oval3-Owners)
+1. In `.env.local` set `DATA_SOURCE` to `DB`.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -256,3 +261,7 @@ Project Link: [https://github.com/ereynier/Oval3-viewer](https://github.com/erey
 [Tailwindcss-url]: https://tailwindcss.com/
 [Viem.sh]: https://img.shields.io/badge/Viem-000000?style=for-the-badge&logo=Ethereum&logoColor=EEEEEE
 [Viem-url]: https://viem.sh/
+[PostgreSQL]: https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white
+[PostgreSQL-url]: https://www.postgresql.org/
+[Prisma.io]: https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white
+[Prisma-url]: https://www.prisma.io/

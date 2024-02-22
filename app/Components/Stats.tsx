@@ -1,3 +1,4 @@
+// Display the stats of a card in a drawer
 import React, { useEffect } from 'react'
 
 
@@ -24,14 +25,6 @@ interface StatsProps {
 
 const Stats = ({ open, setOpen, Card, stats }: StatsProps) => {
 
-    // const [stats, setStats] = React.useState<any>(null)
-
-    // useEffect(() => {
-    //     fetch(`https://score.oval3.game/api/scoring/player/${Card.optaId}`)
-    //         .then(res => res.json())
-    //         .then(data => setStats(data))
-    //         .catch(error => error)
-    // }, [Card.optaId])
 
     const formatDate = (date: string) => {
         const d = new Date(date)
