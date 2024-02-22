@@ -14,8 +14,8 @@ interface AgeProps {
 const Age = ({ setFilters, filters }: AgeProps) => {
 
     const [sliderValues, setSliderValues] = useState([filters.age[0], filters.age[1]]);
-    const min = 17;
-    const max = 40;
+    const min = 15;
+    const max = 60;
 
     const handleSliderChange = (values: any) => {
         setSliderValues(values);

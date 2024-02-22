@@ -71,11 +71,9 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
             <SheetContent side={"left"} className='p-2 sm:p-4'>
                 <SheetHeader className='items-start'>
                     <SheetTitle>Filters</SheetTitle>
-                    <SheetDescription className='flex flex-col gap-2 w-full'>
-                        <div className='flex flex-col gap-0 justify-between w-full items-start text-start'>
-                            <p>{"Select the filters you want to apply"}</p>
+                    <SheetDescription className='flex flex-col gap-0 w-full items-start'>
+                            <p>{"Select the filters you want to apply."}</p>
                             <p>{nbFilteredCard} / {nbCard} cards</p>
-                        </div>
                         <Separator className='shadow-lg shadow-black' />
                     </SheetDescription>
                 </SheetHeader>

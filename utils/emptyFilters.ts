@@ -38,7 +38,7 @@ export const emptyFilters = {
       impact: [0, 100],
       skills: [0, 100]
     },
-    age: [17, 40],
+    age: [15, 60],
     leagues: {
       ...leagues.reduce((acc: any, league: any) => {
         acc[league.name] = true;

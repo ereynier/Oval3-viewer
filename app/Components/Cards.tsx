@@ -58,7 +58,10 @@ const Cards = ({ data, filters }: CardsProps) => {
                 const promises = batch.map(async (item: any) => {
                     const res1 = await fetch(`/api/metadata/${item}`);
                     const metadata = await res1.json();
-                    if (metadata == undefined || metadata.error) return;
+                    if (metadata == undefined || metadata.error) {
+                        console.log("error fetching metadata", metadata)
+                        return;
+                    }
 
                     const res2 = await fetch("https://api.oval3.game/graphql/", {
                         "credentials": "omit",
@@ -80,11 +83,17 @@ const Cards = ({ data, filters }: CardsProps) => {
                         "mode": "cors"
                     });
                     const additional = await res2.json();
-                    if (!additional || additional.errors) return;
+                    if (!additional || additional.errors){
+                        console.log("error fetching additional", additional)
+                        return;
+                    }
 
                     const res3 = await fetch(`https://score.oval3.game/api/scoring/player/${additional.data.Card.optaId}`);
                     const stats = await res3.json();
-                    if (!stats || stats.error) return;
+                    if (!stats || stats.error) {
+                        console.log("error fetching stats", stats)
+                        return;
+                    }
 
                     return {
                         [item]: {
