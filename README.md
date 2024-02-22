@@ -146,7 +146,10 @@ In the `./scripts` folder, you can find some scripts to get the cards by address
     tsc TransferListener.ts
     node TransferListener.js
     ```
+3. In `.env.local` set `DATA_SOURCE` to `JSON`.
 
+The app can use a database to store the datas, you can find the scripts to fill the database in this repository: [https://github.com/ereynier/oval3-Owners](https://github.com/ereynier/oval3-Owners)
+1. In `.env.local` set `DATA_SOURCE` to `DB`.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
