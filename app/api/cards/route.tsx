@@ -3,8 +3,10 @@ import { client } from "@/utils/client";
 import { isAddress } from "viem";
 import Oval3Abi from "@/utils/abi/Oval3.abi.json";
 import owners from "@/utils/datas/owners.json";
+import { prisma } from "@/lib/prsima";
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS
+const DATA_SOURCE = process.env.DATA_SOURCE || "JSON"
 
 export async function POST(req: Request): Promise<NextResponse> {
 
@@ -38,9 +40,37 @@ export async function POST(req: Request): Promise<NextResponse> {
         return NextResponse.json({ success: true, status: 200, data: [] }, { status: 200 });
     }
 
-    const tokens = owners["owners"][address as keyof typeof owners["owners"]]
-    const block = owners["block"] 
-    const data = {"tokens": tokens, "block": block}
+
+    let tokens = [];
+    let block = 0;
+
+    if (DATA_SOURCE != "DB") {
+        // via JSON
+        tokens = owners["owners"][address as keyof typeof owners["owners"]]
+        block = owners["block"]
+    } else {
+        // via DB
+        const owner = await prisma.owners.findUnique({
+            where: {
+                address: address
+            }
+        })
+        if (!owner) {
+            return NextResponse.json({ success: true, status: 200, data: [] }, { status: 200 });
+        }
+        tokens = owner.nfts
+        const blockData = await prisma.blocks.findFirst({
+            orderBy: {
+                blockNumber: "desc"
+            }
+        })
+        if (blockData) {
+            block = blockData.blockNumber
+        }
+    }
+
+
+    const data = { "tokens": tokens, "block": block }
 
 
     return NextResponse.json({ success: true, data: data }, { status: 200 });
