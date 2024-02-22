@@ -11,7 +11,7 @@ import { emptyFilters } from "@/utils/emptyFilters";
 
 const Landing = () => {
 
-  const [data, setData] = React.useState<any>(null); // data from the JSON or DB (owners, tokens ids, last block)
+  const [data, setData] = React.useState<{tokens: number[], block: number} | null>(null); // data from the JSON or DB (owners, tokens ids, last block)
   const [filters, setFilters] = React.useState<any>({ ...emptyFilters }); // filters for the cards
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
@@ -57,6 +57,7 @@ const Landing = () => {
         </div>
       )}
       <p className="fixed text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-green-200 to-green-500 bottom-3 right-3 -z-5 ">beta</p>
+      <p className="absolute text-xs sm:text-sm italic text-foreground opacity-70 top-1">{`block: ${data ? `${data.block}` : ""}`}</p>
     </div>
   );
 }
