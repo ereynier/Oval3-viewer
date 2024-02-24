@@ -5,7 +5,6 @@ import _ from 'lodash';
 
 import countries from "@/utils/datas/countries.json";
 import RugbyLoader from '@/components/RugbyLoader';
-import { Skeleton } from '@/components/ui/skeleton';
 import Image from 'next/image';
 import { useNbCardStore } from '@/utils/store/NbCardStore';
 import { useOrderStore } from '@/utils/store/OrderStore';
@@ -240,10 +239,12 @@ const Cards = ({ data, filters }: CardsProps) => {
 
     const countFiltered = () => {
         let count = 0
+        let total = 0
         for (const card in cards) {
             if (isFiltered(cards[card])) {
                 count++
             }
+            total++
         }
         return count
     }

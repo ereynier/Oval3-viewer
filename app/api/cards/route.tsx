@@ -69,6 +69,8 @@ export async function POST(req: Request): Promise<NextResponse> {
         }
     }
 
+    tokens = Array.from(new Set(tokens))
+
 
     const data = { "tokens": tokens, "block": block }
 
