@@ -63,7 +63,7 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
                 </div> */}
                 <ListFilter size={24} className='' />
                 {nbFilters > 0 && (
-                    <div className='absolute top-0 right-0 mt-1 mr-1 bg-primary text-primary-foreground rounded-full h-4 w-4 flex items-center justify-center'>
+                    <div className='absolute top-0 left-0 mt-1 ml-1 bg-primary text-primary-foreground rounded-full h-4 w-4 flex items-center justify-center'>
                         <p className=' text-xs'>{nbFilters}</p>
                     </div>
                 )}

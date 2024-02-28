@@ -22,7 +22,7 @@ const Landing = () => {
           <Searcher setData={setData} setIsLoading={setIsLoading} />
         </Suspense>
         <div className="flex flex-col sm:flex-row items-start justify-start gap-2 px-8 w-full">
-          <div className="fixed left-0 top-1 lg:left-1">
+          <div className="fixed left-0 top-2 lg:left-1">
             <Filters setFilters={setFilters} filters={filters} />
           </div>
           <Sorter />
