@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import Cards from "./Cards";
 import Searcher from "./Searcher";
 import Filters from "./Filters";
@@ -11,14 +11,16 @@ import { emptyFilters } from "@/utils/emptyFilters";
 
 const Landing = () => {
 
-  const [data, setData] = React.useState<{tokens: number[], block: number} | null>(null); // data from the JSON or DB (owners, tokens ids, last block)
+  const [data, setData] = React.useState<{ tokens: number[], block: number } | null>(null); // data from the JSON or DB (owners, tokens ids, last block)
   const [filters, setFilters] = React.useState<any>({ ...emptyFilters }); // filters for the cards
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen h-full w-full py-2 gap-2">
       <div className="flex flex-col items-center sm:items-start justify-center gap-2 w-full max-w-4xl">
-        <Searcher setData={setData} setIsLoading={setIsLoading} />
+        <Suspense>
+          <Searcher setData={setData} setIsLoading={setIsLoading} />
+        </Suspense>
         <div className="flex flex-col sm:flex-row items-start justify-start gap-2 px-8 w-full">
           <Filters setFilters={setFilters} filters={filters} />
           <Sorter />
@@ -38,7 +40,7 @@ const Landing = () => {
       {!data && !isLoading && (
         <div className="absolute inset-0 -z-[1] flex flex-col items-center justify-center">
           <p className="text-center text-5xl sm:text-7xl font-bold relative bg-clip-text text-transparent bg-gradient-to-b from-green-200 to-green-500 py-8">
-            Oval3 Viewer 
+            Oval3 Viewer
           </p>
           <p className="text-center text-3xl sm:text-4xl font-bold relative bg-clip-text text-neutral-800 dark:text-neutral-300">
             Check your cards

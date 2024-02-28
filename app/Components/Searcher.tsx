@@ -1,13 +1,14 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React, { useEffect, useRef } from 'react'
+import React, { useCallback, useEffect, useRef } from 'react'
 import { useToast } from "@/components/ui/use-toast"
 import RugbyLoader from '@/components/RugbyLoader'
 import { Label } from '@/components/ui/label'
 import { isAddress } from 'viem'
 import { X } from 'lucide-react'
 import { useLocalStorage } from '@/lib/hooks'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 
 interface SearcherProps {
@@ -23,9 +24,15 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
     const [pastInputs, setPastInputs] = useLocalStorage<string[]>("pastInputs", [])
     const { toast } = useToast()
 
+    const searchParams = useSearchParams()
+    const router = useRouter()
+    const pathname = usePathname()
+
     const [open, setOpen] = React.useState<boolean>(false)
     const inputRef = useRef(null);
     const divRef = useRef(null);
+
+    const search = searchParams.get('address')
 
     useEffect(() => {
         function handleClickOutside(event: { target: any }) {
@@ -39,6 +46,22 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
+    useEffect(() => {
+        if (search) {
+            setAddress(search)
+        }
+    }, [search])
+
+    const createQueryString = useCallback(
+        (name: string, value: string) => {
+            const params = new URLSearchParams(searchParams.toString())
+            params.set(name, value)
+
+            return params.toString()
+        },
+        [searchParams]
+    )
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAddress(e.target.value)
@@ -65,6 +88,7 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
         if (loading) return
         if (!address) {
             setData(undefined)
+            router.push(pathname)
             return
         }
         if (!isAddress(address)) {
@@ -74,6 +98,7 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
                 description: "Invalid address",
                 variant: "destructive"
             })
+            router.push(pathname)
             return
         }
         setLoading(true)
@@ -85,6 +110,8 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
             setPastInputs([...pastInputs, address])
             localStorage.setItem("pastInputs", JSON.stringify([...pastInputs, address]))
         }
+        // update url
+        router.push(pathname + '?' + createQueryString('address', address))
         // fetch data
         fetch("/api/cards", {
             method: "POST",
