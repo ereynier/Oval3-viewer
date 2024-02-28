@@ -56,14 +56,14 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
 
     return (
         <Sheet onOpenChange={(open) => { !open && setTmpFilters({ ...filters }) }}>
-            <SheetTrigger className='relative flex flex-row gap-2 hover:bg-secondary rounded-lg border w-full sm:w-fit sm:min-w-[180px] h-10 justify-between p-2 items-center bg-background'>
-                <div className='flex flex-row gap-2 items-end justify-between w-full'>
+            <SheetTrigger className='relative flex flex-row gap-2 hover:bg-secondary rounded-lg w-fit h-10 justify-between p-2 items-center'>
+                {/* <div className='flex flex-row gap-2 items-end justify-between w-full'>
                     <p>Filters</p>
                     <p className='text-xs text-muted-foreground'>{nbFilteredCard}/{nbCard}</p>
-                </div>
-                <ListFilter size={24} />
+                </div> */}
+                <ListFilter size={24} className='' />
                 {nbFilters > 0 && (
-                    <div className='absolute top-0 right-0 -mt-2 -mr-2 bg-primary text-primary-foreground rounded-full h-5 w-5 flex items-center justify-center'>
+                    <div className='absolute top-0 right-0 mt-1 mr-1 bg-primary text-primary-foreground rounded-full h-4 w-4 flex items-center justify-center'>
                         <p className=' text-xs'>{nbFilters}</p>
                     </div>
                 )}

@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { useNbCardStore } from '@/utils/store/NbCardStore';
 import { useOrderStore } from '@/utils/store/OrderStore';
 import { getGWScore } from '@/utils/getGWScore';
+import { useGWStore } from '@/utils/store/GWStore';
 
 interface CardsProps {
     data: any
@@ -34,6 +35,7 @@ const Cards = ({ data, filters }: CardsProps) => {
     const setNbFilteredCard = useNbCardStore((state: any) => state.setNbFilteredCard);
     const sortBy = useOrderStore((state: any) => state.sortBy);
     const order = useOrderStore((state: any) => state.order);
+    const gwNum = useGWStore(state => state.num)
 
 
     const prevDataRef = useRef();
@@ -147,8 +149,8 @@ const Cards = ({ data, filters }: CardsProps) => {
                     return cards[b].metadata.attributes[4].value.localeCompare(cards[a].metadata.attributes[4].value);
                 }
             } else if (sortBy === "gw_score") {
-                const aScore = getGWScore(cards[a].stats.nb_games)
-                const bScore = getGWScore(cards[b].stats.nb_games)
+                const aScore = getGWScore(cards[a].stats.nb_games, gwNum)
+                const bScore = getGWScore(cards[b].stats.nb_games, gwNum)
                 if (aScore === "N/A" && bScore === "N/A") return 0
                 if (aScore === "N/A" && order == "asc") return -1
                 if (aScore === "N/A" && order == "desc") return 1
@@ -220,7 +222,7 @@ const Cards = ({ data, filters }: CardsProps) => {
             return false
         }
         // Game Week Score
-        const gwScore = getGWScore(card.stats.nb_games)
+        const gwScore = getGWScore(card.stats.nb_games, gwNum)
         if (gwScore !== "N/A") {
             if ((Number(gwScore) < filters.gw_score[0] || Number(gwScore) > filters.gw_score[1])) {
                 return false

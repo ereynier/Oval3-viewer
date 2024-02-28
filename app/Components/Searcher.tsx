@@ -40,7 +40,6 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
                 setOpen(false);
             }
         }
-
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);

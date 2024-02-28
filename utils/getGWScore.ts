@@ -1,9 +1,11 @@
 
-export const getGWScore = (nb_games: { attack: string, defense: string, game_date: string, impact: string, metadata_total: string, skills: string, strength: string }[]) => {
+export const getGWScore = (nb_games: { attack: string, defense: string, game_date: string, impact: string, metadata_total: string, skills: string, strength: string }[], gwNum: number) => {
     if (!nb_games || nb_games.length === 0) return "N/A"
-    // get metadata_total of the last game if the date is between last monday and previous monday
+    // get metadata_total of the last game if the date is between last monday and previous monday (gwNum - 1 weeks ago to gwNum - 2 weeks ago)
     const lastMonday = new Date()
     const today = new Date()
+    today.setDate(today.getDate() - 7 * (gwNum - 1))
+    lastMonday.setDate(lastMonday.getDate() - 7 * (gwNum - 1))
     lastMonday.setDate(lastMonday.getDate() - (today.getDay() - 1) % 7)
     const previousMonday = new Date(lastMonday)
     previousMonday.setDate(previousMonday.getDate() - 7)

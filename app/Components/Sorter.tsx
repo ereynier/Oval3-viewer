@@ -21,8 +21,6 @@ const Sorter = () => {
     const setSortBy = useOrderStore(state => state.setSortBy)
     const toggleOrder = useOrderStore(state => state.toggleOrder)
     const order = useOrderStore(state => state.order)
-    const gwDisplay = useGWStore(state => state.display)
-    const setGwDisplay = useGWStore(state => state.setDisplay)
 
     return (
         <div className="flex flex-row items-center justify-between gap-2 w-full sm:w-fit">
@@ -53,10 +51,6 @@ const Sorter = () => {
                         <ArrowDown10 size={24} />
                     }
                 </Button>
-            </div>
-            <div className="flex items-center space-x-2 w-fit">
-                <Switch checked={gwDisplay === "GW"} onCheckedChange={(v: boolean) => setGwDisplay(v)} />
-                <Label className='text-center whitespace-nowrap'>{gwDisplay === "GW" ? "GW Score" : "Score"}</Label>
             </div>
         </div>
 
