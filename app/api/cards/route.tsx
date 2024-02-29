@@ -50,22 +50,27 @@ export async function POST(req: Request): Promise<NextResponse> {
         block = owners["block"]
     } else {
         // via DB
-        const owner = await prisma.owners.findUnique({
-            where: {
-                address: address
+        try {
+            const owner = await prisma.owners.findUnique({
+                where: {
+                    address: address
+                }
+            })
+            if (!owner) {
+                return NextResponse.json({ success: true, status: 200, data: [] }, { status: 200 });
             }
-        })
-        if (!owner) {
-            return NextResponse.json({ success: true, status: 200, data: [] }, { status: 200 });
-        }
-        tokens = owner.nfts
-        const blockData = await prisma.blocks.findFirst({
-            orderBy: {
-                blockNumber: "desc"
+            tokens = owner.nfts
+            const blockData = await prisma.blocks.findFirst({
+                orderBy: {
+                    blockNumber: "desc"
+                }
+            })
+            if (blockData) {
+                block = blockData.blockNumber
             }
-        })
-        if (blockData) {
-            block = blockData.blockNumber
+        } catch (error) {
+            console.log(error)
+            return NextResponse.json({ success: false, status: 500, error: "Internal server error, please try again later" }, { status: 500 });
         }
     }
 
