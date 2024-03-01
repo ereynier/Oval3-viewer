@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Sheet,
     SheetContent,
@@ -28,6 +28,7 @@ import { emptyFilters } from '@/utils/emptyFilters'
 import { useNbCardStore } from '@/utils/store/NbCardStore'
 import GWScore from './FiltersComponents/GWScore'
 import _ from 'lodash'
+import { useCollapsibleStateStore } from '@/utils/store/CollapsibleStateStore'
 
 interface FiltersProps {
     filters: any
@@ -40,9 +41,10 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
     const [tmpFilters, setTmpFilters] = React.useState<any>(filters)
     const nbCard = useNbCardStore(state => state.nbCard)
     const nbFilteredCard = useNbCardStore(state => state.nbFilteredCard)
+    const [openStates, setOpenStates] = useCollapsibleStateStore(state => [state.openStates, state.setOpenStates])
 
     useEffect(() => {
-        setNbFilters(Object.keys(filters).filter((key) => !_.isEqual(filters[key], { ...emptyFilters }[key])).length);
+            setNbFilters(Object.keys(filters).filter((key) => !_.isEqual(filters[key], { ...emptyFilters }[key])).length);
     }, [filters])
 
     const handleResetFilters = () => {
@@ -83,43 +85,43 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
                             <Button disabled={diffFilters()} onClick={() => { setFilters({ ...tmpFilters }) }} className={`w-full mb-1 col-span-2`} variant='default'>Apply filters</Button>
                             <Button disabled={nbFilters == 0} onClick={() => handleResetFilters()} className={`w-full mb-1 col-span-1`} variant='destructive'>Reset</Button>
                         </div>
-                        <CollapseProvider name="Name">
+                        <CollapseProvider name="Name"  isOpen={openStates['Name']} onOpenChange={(isOpen: boolean) => setOpenStates('Name', isOpen)}>
                             <Name filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
-                        <CollapseProvider name="Rarity">
+                        <CollapseProvider name="Rarity" isOpen={openStates['Rarity']} onOpenChange={(isOpen: boolean) => setOpenStates('Rarity', isOpen)}>
                             <Rarity filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
-                        <CollapseProvider name="Clubs">
+                        <CollapseProvider name="Clubs" isOpen={openStates['Clubs']} onOpenChange={(isOpen: boolean) => setOpenStates('Clubs', isOpen)}>
                             <Clubs filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
-                        <CollapseProvider name="Position">
+                        <CollapseProvider name="Position" isOpen={openStates['Position']} onOpenChange={(isOpen: boolean) => setOpenStates('Position', isOpen)}>
                             <Position filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
-                        <CollapseProvider name="Score">
+                        <CollapseProvider name="Score" isOpen={openStates['Score']} onOpenChange={(isOpen: boolean) => setOpenStates('Score', isOpen)}>
                             <Score filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
-                        <CollapseProvider name="Stats">
+                        <CollapseProvider name="Stats" isOpen={openStates['Stats']} onOpenChange={(isOpen: boolean) => setOpenStates('Stats', isOpen)}>
                             <Stats filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
-                        <CollapseProvider name="Age">
+                        <CollapseProvider name="Age" isOpen={openStates['Age']} onOpenChange={(isOpen: boolean) => setOpenStates('Age', isOpen)}>
                             <Age filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
-                        <CollapseProvider name="Leagues">
+                        <CollapseProvider name="Leagues" isOpen={openStates['Leagues']} onOpenChange={(isOpen: boolean) => setOpenStates('Leagues', isOpen)}>
                             <Leagues filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
-                        <CollapseProvider name="Nationality">
+                        <CollapseProvider name="Nationality" isOpen={openStates['Nationality']} onOpenChange={(isOpen: boolean) => setOpenStates('Nationality', isOpen)}>
                             <Countries filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
-                        <CollapseProvider name="Game Week Score">
+                        <CollapseProvider name="Game Week Score" isOpen={openStates['GWScore']} onOpenChange={(isOpen: boolean) => setOpenStates('GWScore', isOpen)}>
                             <GWScore filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />

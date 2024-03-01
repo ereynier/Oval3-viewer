@@ -6,11 +6,17 @@ import { ChevronUp } from 'lucide-react'
 interface CollapseProviderProps {
     name: string
     children: React.ReactNode
+    isOpen?: boolean
+    onOpenChange?: (value: boolean) => void
 }
 
-const CollapseProvider = ({ name, children }: CollapseProviderProps) => {
+const CollapseProvider = ({ name, children, isOpen: externalIsOpen, onOpenChange: externalSetIsOpen }: CollapseProviderProps) => {
 
-    const [isOpen, setIsOpen] = React.useState(false)
+    const [internalIsOpen, internalSetIsOpen] = React.useState(false)
+
+    const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen
+    const setIsOpen = externalSetIsOpen !== undefined ? externalSetIsOpen : internalSetIsOpen
+
     return (
         <Collapsible open={isOpen} onOpenChange={setIsOpen} className='w-full'>
             <CollapsibleTrigger asChild>

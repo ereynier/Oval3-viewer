@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/collapsible"
 import { ArrowBigDown, ArrowBigDownDash, ArrowDown, ChevronDown, ChevronUp, SortAsc } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useCollapsibleStateStore } from '@/utils/store/CollapsibleStateStore'
 
 interface PositionProps {
     setFilters: (value: any) => void
@@ -14,12 +15,7 @@ interface PositionProps {
 }
 
 const Position = ({ setFilters, filters }: PositionProps) => {
-
-    const [FRIsOpen, setFRIsOpen] = React.useState(!filters.position["Prop"] || !filters.position["Hooker"])
-    const [STRIsOpen, setSTRIsOpen] = React.useState(!filters.position["Lock"] || !filters.position["Flanker"] || !filters.position["Number 8"])
-    const [halfIsOpen, setHalfIsOpen] = React.useState(!filters.position["Scrum Half"] || !filters.position["Outside Half"])
-    const [backIsOpen, setBackIsOpen] = React.useState(!filters.position["Centre"] || !filters.position["Left Wing"] || !filters.position["Right Wing"] || !filters.position["Full Back"])
-
+    
     const [FRValue, setFRValue] = React.useState(filters.position["Prop"] && filters.position["Hooker"])
     const [propValue, setPropValue] = React.useState(filters.position["Prop"])
     const [hookerValue, setHookerValue] = React.useState(filters.position["Hooker"])
@@ -39,6 +35,7 @@ const Position = ({ setFilters, filters }: PositionProps) => {
     const [rightwingValue, setRightwingValue] = React.useState(filters.position["Right Wing"])
     const [fullbackValue, setFullbackValue] = React.useState(filters.position["Full Back"])
 
+    const [openStates, setOpenStates] = useCollapsibleStateStore(state => [state.openStates, state.setOpenStates])
 
     const handleFR = (value: boolean | string) => {
         if (typeof value === 'boolean') {
@@ -177,7 +174,7 @@ const Position = ({ setFilters, filters }: PositionProps) => {
     return (
         <div className="w-full h-full">
             <div className='flex flex-col gap-1'>
-                <Collapsible open={FRIsOpen} onOpenChange={setFRIsOpen}>
+                <Collapsible open={openStates["FR"]} onOpenChange={(isOpen: boolean) => setOpenStates('FR', isOpen)}>
                     <div className="flex items-center justify-between">
                         <div className="flex flex-row items-center gap-2">
                             <Checkbox checked={FRValue} id="FR" onCheckedChange={(value) => handleFR(value)} />
@@ -185,7 +182,7 @@ const Position = ({ setFilters, filters }: PositionProps) => {
                         </div>
                         <CollapsibleTrigger asChild>
                             <Button variant="ghost" size="icon">
-                                <ChevronUp className={`h-6 w-6 ${FRIsOpen ? "rotate-180" : "rotate-0"} transition-all duration-300`} />
+                                <ChevronUp className={`h-6 w-6 ${openStates["FR"] ? "rotate-180" : "rotate-0"} transition-all duration-300`} />
                                 <span className="sr-only">Toggle</span>
                             </Button>
                         </CollapsibleTrigger>
@@ -202,7 +199,7 @@ const Position = ({ setFilters, filters }: PositionProps) => {
                     </CollapsibleContent>
                 </Collapsible>
 
-                <Collapsible open={STRIsOpen} onOpenChange={setSTRIsOpen}>
+                <Collapsible open={openStates["STR"]} onOpenChange={(isOpen: boolean) => setOpenStates('STR', isOpen)}>
                     <div className="flex items-center justify-between">
                         <div className="flex flex-row items-center gap-2">
                             <Checkbox checked={STRValue} id="STR" onCheckedChange={(value) => handleSTR(value)} />
@@ -210,7 +207,7 @@ const Position = ({ setFilters, filters }: PositionProps) => {
                         </div>
                         <CollapsibleTrigger asChild>
                             <Button variant="ghost" size="icon">
-                                <ChevronUp className={`h-6 w-6 ${STRIsOpen ? "rotate-180" : "rotate-0"} transition-all duration-300`} />
+                                <ChevronUp className={`h-6 w-6 ${openStates["STR"] ? "rotate-180" : "rotate-0"} transition-all duration-300`} />
                                 <span className="sr-only">Toggle</span>
                             </Button>
                         </CollapsibleTrigger>
@@ -231,7 +228,7 @@ const Position = ({ setFilters, filters }: PositionProps) => {
                     </CollapsibleContent>
                 </Collapsible>
 
-                <Collapsible open={halfIsOpen} onOpenChange={setHalfIsOpen}>
+                <Collapsible open={openStates["half"]} onOpenChange={(isOpen: boolean) => setOpenStates('half', isOpen)}>
                     <div className="flex items-center justify-between">
                         <div className="flex flex-row items-center gap-2">
                             <Checkbox checked={halfValue} id="Half" onCheckedChange={(value) => handleHalf(value)} />
@@ -239,7 +236,7 @@ const Position = ({ setFilters, filters }: PositionProps) => {
                         </div>
                         <CollapsibleTrigger asChild>
                             <Button variant="ghost" size="icon">
-                                <ChevronUp className={`h-6 w-6 ${halfIsOpen ? "rotate-180" : "rotate-0"} transition-all duration-300`} />
+                                <ChevronUp className={`h-6 w-6 ${openStates["half"] ? "rotate-180" : "rotate-0"} transition-all duration-300`} />
                                 <span className="sr-only">Toggle</span>
                             </Button>
                         </CollapsibleTrigger>
@@ -256,7 +253,7 @@ const Position = ({ setFilters, filters }: PositionProps) => {
                     </CollapsibleContent>
                 </Collapsible>
 
-                <Collapsible open={backIsOpen} onOpenChange={setBackIsOpen}>
+                <Collapsible open={openStates["back"]} onOpenChange={(isOpen: boolean) => setOpenStates('back', isOpen)}>
                     <div className="flex items-center justify-between">
                         <div className="flex flex-row items-center gap-2">
                             <Checkbox checked={backValue} id="Back" onCheckedChange={(value) => handleBack(value)} />
@@ -264,7 +261,7 @@ const Position = ({ setFilters, filters }: PositionProps) => {
                         </div>
                         <CollapsibleTrigger asChild>
                             <Button variant="ghost" size="icon">
-                                <ChevronUp className={`h-6 w-6 ${backIsOpen ? "rotate-180" : "rotate-0"} transition-all duration-300`} />
+                                <ChevronUp className={`h-6 w-6 ${openStates["back"] ? "rotate-180" : "rotate-0"} transition-all duration-300`} />
                                 <span className="sr-only">Toggle</span>
                             </Button>
                         </CollapsibleTrigger>
