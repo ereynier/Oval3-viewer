@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from "next/image";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import Stats from './Stats';
@@ -31,13 +31,17 @@ interface CardProps {
 const Card = ({ metadata, additionals, stats }: CardProps) => {
 
   const [open, setOpen] = React.useState<boolean>(false)
-
+  const [imgSrc, setImgSrc] = useState(metadata?.image ? "https://medias.oval3.game/img/public/resize?url=" + metadata?.image + "&width=300" : "/images/card-placeholder.webp");
 
   const handleClick = () => {
     setOpen(true)
     console.log(metadata)
     console.log(additionals?.Card)
   }
+
+  useEffect(() => {
+    setImgSrc(metadata?.image ? "https://medias.oval3.game/img/public/resize?url=" + metadata?.image + "&width=300" : "/images/card-placeholder.webp")
+  }, [metadata])
 
   return (
     <div className="flex items-center justify-center">
@@ -46,11 +50,12 @@ const Card = ({ metadata, additionals, stats }: CardProps) => {
           <div onClick={handleClick} className='w-full h-full flex flex-col items-center justify-center'>
             <CardItem translateZ="100" className="w-full h-auto" as={"button"}>
               <Image
-                src={(metadata?.image ? "https://medias.oval3.game/img/public/resize?url=" + metadata?.image + "&width=300" : "/images/card-placeholder.webp")}
+                src={imgSrc}
                 height="977"
                 width="640"
                 className={`object-cover rounded-xl group-hover/card:shadow-xl`}
                 alt={`${metadata?.name} card`}
+                onError={() => setImgSrc("/images/card-placeholder.webp")}
               />
             </CardItem>
             <CardItem translateZ={"130"} className='absolute top-0 right-0 h-full w-1/4 opacity-0 group-hover/card:opacity-90'>
