@@ -45,7 +45,22 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
 
     useEffect(() => {
             setNbFilters(Object.keys(filters).filter((key) => !_.isEqual(filters[key], { ...emptyFilters }[key])).length);
-    }, [filters])
+
+            const handleKeyDown = (event: { key: string }) => {
+                if (event.key === 'Enter') {
+                  // Execute your function here
+                  setFilters({ ...tmpFilters });
+                }
+              };
+          
+              window.addEventListener('keydown', handleKeyDown);
+          
+              // Cleanup function to remove the event listener when the component unmounts
+              return () => {
+                window.removeEventListener('keydown', handleKeyDown);
+              };
+              
+    }, [filters, tmpFilters, setFilters])
 
     const handleResetFilters = () => {
         setTmpFilters({ ...emptyFilters })
