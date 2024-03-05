@@ -5,6 +5,8 @@ import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import Stats from './Stats';
 import { useGWStore } from '@/utils/store/GWStore';
 import { getGWScore } from '@/utils/getGWScore';
+import { usePinnedStore } from '@/utils/store/PinnedStore';
+import { PinIcon } from 'lucide-react';
 
 
 interface ScoreCardItemProps {
@@ -21,6 +23,28 @@ const ScoreCardItem: React.FC<ScoreCardItemProps> = ({ additionals, stats }) => 
     </CardItem>
   );
 }
+
+const PinCardItem = ({ id }: { id: string }) => {
+  const setPinnedPlayers = usePinnedStore(state => state.setPinnedPlayers)
+  const pinnedPlayers = usePinnedStore(state => state.pinnedPlayers)
+
+  const updatePinned = (id: number) => {
+    if (pinnedPlayers.includes(id)) {
+      setPinnedPlayers(pinnedPlayers.filter((player) => player !== id))
+    } else {
+      setPinnedPlayers([...pinnedPlayers, id])
+    }
+  }
+
+  return (
+    <CardItem translateZ={"100"} className='absolute top-1 left-1 h-fit w-full z-50 p-2'>
+      <button onClick={() => updatePinned(Number(id))} className="p-1 rounded-md">
+        <PinIcon className={`h-7 w-7 ${pinnedPlayers.includes(Number(id)) ? "fill-emerald-500" : "fill-transparent"} stroke-white`} />
+      </button>
+    </CardItem>
+  )
+}
+
 
 interface CardProps {
   metadata?: any
@@ -63,6 +87,7 @@ const Card = ({ metadata, additionals, stats }: CardProps) => {
             </CardItem>
             <ScoreCardItem additionals={additionals} stats={stats} />
           </div>
+          <PinCardItem id={additionals?.Card.tokenId} />
         </CardBody>
       </CardContainer>
       {additionals?.Card && (

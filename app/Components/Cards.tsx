@@ -10,6 +10,7 @@ import { useNbCardStore } from '@/utils/store/NbCardStore';
 import { useOrderStore } from '@/utils/store/OrderStore';
 import { getGWScore } from '@/utils/getGWScore';
 import { useGWStore } from '@/utils/store/GWStore';
+import { usePinnedStore } from '@/utils/store/PinnedStore';
 
 interface CardsProps {
     data: any
@@ -36,6 +37,9 @@ const Cards = ({ data, filters }: CardsProps) => {
     const sortBy = useOrderStore((state: any) => state.sortBy);
     const order = useOrderStore((state: any) => state.order);
     const gwNum = useGWStore(state => state.num)
+    const pinnedPlayers = usePinnedStore(state => state.pinnedPlayers)
+    const onlyPinned = usePinnedStore(state => state.onlyPinned)
+    const applyFilterPin = usePinnedStore(state => state.applyFilters)
 
 
     const prevDataRef = useRef();
@@ -168,6 +172,13 @@ const Cards = ({ data, filters }: CardsProps) => {
 
     const isFiltered = (card: any) => {
         if (!card.metadata || !card.additional || !card.stats) return false
+        // Pinned
+        if (!applyFilterPin && pinnedPlayers.includes(card.metadata.token)) {
+            return true
+        }
+        if (onlyPinned && !pinnedPlayers.includes(card.metadata.token)) {
+            return false
+        }
         // Name
         if (filters.name && filters.name !== "") {
             if (!card.metadata.name.toLowerCase().includes(filters.name.toLowerCase())) {

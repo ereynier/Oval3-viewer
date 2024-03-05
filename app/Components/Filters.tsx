@@ -29,6 +29,9 @@ import { useNbCardStore } from '@/utils/store/NbCardStore'
 import GWScore from './FiltersComponents/GWScore'
 import _ from 'lodash'
 import { useCollapsibleStateStore } from '@/utils/store/CollapsibleStateStore'
+import { Switch } from '@/components/ui/switch'
+import { Label } from '@/components/ui/label'
+import { usePinnedStore } from '@/utils/store/PinnedStore'
 
 interface FiltersProps {
     filters: any
@@ -42,24 +45,26 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
     const nbCard = useNbCardStore(state => state.nbCard)
     const nbFilteredCard = useNbCardStore(state => state.nbFilteredCard)
     const [openStates, setOpenStates] = useCollapsibleStateStore(state => [state.openStates, state.setOpenStates])
+    const applyFilterPin = usePinnedStore(state => state.applyFilters)
+    const setApplyFilterPin = usePinnedStore(state => state.setApplyFilters)
 
     useEffect(() => {
-            setNbFilters(Object.keys(filters).filter((key) => !_.isEqual(filters[key], { ...emptyFilters }[key])).length);
+        setNbFilters(Object.keys(filters).filter((key) => !_.isEqual(filters[key], { ...emptyFilters }[key])).length);
 
-            const handleKeyDown = (event: { key: string }) => {
-                if (event.key === 'Enter') {
-                  // Execute your function here
-                  setFilters({ ...tmpFilters });
-                }
-              };
-          
-              window.addEventListener('keydown', handleKeyDown);
-          
-              // Cleanup function to remove the event listener when the component unmounts
-              return () => {
-                window.removeEventListener('keydown', handleKeyDown);
-              };
-              
+        const handleKeyDown = (event: { key: string }) => {
+            if (event.key === 'Enter') {
+                // Execute your function here
+                setFilters({ ...tmpFilters });
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Cleanup function to remove the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+
     }, [filters, tmpFilters, setFilters])
 
     const handleResetFilters = () => {
@@ -89,8 +94,8 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
                 <SheetHeader className='items-start'>
                     <SheetTitle>Filters</SheetTitle>
                     <SheetDescription className='flex flex-col gap-0 w-full items-start'>
-                            <p>{"Select the filters you want to apply."}</p>
-                            <p>{nbFilteredCard} / {nbCard} cards</p>
+                        <p>{"Select the filters you want to apply."}</p>
+                        <p>{nbFilteredCard} / {nbCard} cards</p>
                         <Separator className='shadow-lg shadow-black' />
                     </SheetDescription>
                 </SheetHeader>
@@ -100,7 +105,11 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
                             <Button disabled={diffFilters()} onClick={() => { setFilters({ ...tmpFilters }) }} className={`w-full mb-1 col-span-2`} variant='default'>Apply filters</Button>
                             <Button disabled={nbFilters == 0} onClick={() => handleResetFilters()} className={`w-full mb-1 col-span-1`} variant='destructive'>Reset</Button>
                         </div>
-                        <CollapseProvider name="Name"  isOpen={openStates['Name']} onOpenChange={(isOpen: boolean) => setOpenStates('Name', isOpen)}>
+                        <div className="flex items-center space-x-2">
+                            <Switch id="pinned" checked={applyFilterPin} onCheckedChange={(v) => setApplyFilterPin(v)} />
+                            <Label htmlFor="pinned" className='whitespace-nowrap'>Apply filters to pinned</Label>
+                        </div>
+                        <CollapseProvider name="Name" isOpen={openStates['Name']} onOpenChange={(isOpen: boolean) => setOpenStates('Name', isOpen)}>
                             <Name filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />

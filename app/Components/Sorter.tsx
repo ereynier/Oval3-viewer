@@ -14,6 +14,7 @@ import { useOrderStore } from '@/utils/store/OrderStore'
 import { useGWStore } from '@/utils/store/GWStore'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
+import { usePinnedStore } from '@/utils/store/PinnedStore'
 
 
 
@@ -21,6 +22,8 @@ const Sorter = () => {
     const setSortBy = useOrderStore(state => state.setSortBy)
     const toggleOrder = useOrderStore(state => state.toggleOrder)
     const order = useOrderStore(state => state.order)
+    const onlyPinned = usePinnedStore(state => state.onlyPinned)
+    const setOnlyPinned = usePinnedStore(state => state.setOnlyPinned)
 
     return (
         <div className="flex flex-row items-center justify-between gap-2 w-full sm:w-fit">
@@ -51,6 +54,10 @@ const Sorter = () => {
                         <ArrowDown10 size={24} />
                     }
                 </Button>
+            </div>
+            <div className="flex items-center space-x-2">
+                <Switch id="pinned" checked={onlyPinned} onCheckedChange={(v) => setOnlyPinned(v)}/>
+                <Label htmlFor="pinned" className='whitespace-nowrap'>Pin only</Label>
             </div>
         </div>
 

@@ -52,5 +52,6 @@ export const emptyFilters = {
       }, {})
     },
     gw_score: [0, 100],
-    hide_gw_na: false
+    hide_gw_na: false,
+    only_pinned: false
   }
