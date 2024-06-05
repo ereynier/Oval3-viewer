@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "./theme-provider";
 import { ThemeSwitcher } from "./Components/ThemeSwitcher";
 import Footer from "./Components/Footer";
+import FeedbackButton from "@/components/FeedbackButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
               <div className="absolute top-2 right-5">
                 <ThemeSwitcher />
               </div>
+              <FeedbackButton className="fixed bottom-2 left-2 z-10" />
               <Footer />
               <Toaster />
             </ThemeProvider>
