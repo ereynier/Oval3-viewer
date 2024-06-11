@@ -19,15 +19,25 @@ const PopUp = () => {
 
     const [showPopUp, setshowPopUp] = useLocalStorage<boolean>("showPopUpFeedback", true)
     const [open, setOpen] = React.useState<boolean>(false)
+    const [checked, setChecked] = React.useState<boolean>(false)
 
     React.useEffect(() => {
         if (showPopUp) {
             setOpen(true)
+        } else {
+            setOpen(false)
         }
     }, [showPopUp])
 
+    const handleOpen = (v: boolean) => {
+        setOpen(!open)
+        if (!v) {
+            setshowPopUp(!checked)
+        }
+    }
+
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={(v) => handleOpen(v)}>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>New feedback button!</DialogTitle>
@@ -37,7 +47,7 @@ const PopUp = () => {
                 </DialogHeader>
                 <Image src="/images/feedback.png" alt="feedback" width={500} height={500} />
                 <div className='flex flex-row items-center justify-start gap-2'>
-                    <Checkbox checked={!showPopUp} onCheckedChange={() => setshowPopUp(!showPopUp)} />
+                    <Checkbox checked={checked} onCheckedChange={() => setChecked(!checked)} />
                     <Label>Don't show this again</Label>
                 </div>
             </DialogContent>
