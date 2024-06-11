@@ -31,7 +31,7 @@ export default function RootLayout({
                 <ThemeSwitcher />
               </div>
               <FeedbackButton className="fixed bottom-2 left-2 z-10" />
-              <PopUp />
+              {/* <PopUp /> */}
               <Footer />
               <Toaster />
             </ThemeProvider>
