@@ -30,13 +30,13 @@ export const emptyFilters = {
       "Right Wing": true,
       "Full Back": true
     },
-    score: [0, 100],
+    score: [-10, 100],
     stats: {
-      attack: [0, 100],
-      defense: [0, 100],
-      strength: [0, 100],
-      impact: [0, 100],
-      skills: [0, 100]
+      attack: [-10, 100],
+      defense: [-10, 100],
+      strength: [-10, 100],
+      impact: [-10, 100],
+      skills: [-10, 100]
     },
     age: [15, 60],
     leagues: {
@@ -51,7 +51,7 @@ export const emptyFilters = {
         return acc;
       }, {})
     },
-    gw_score: [0, 100],
+    gw_score: [-10, 100],
     hide_gw_na: false,
     only_pinned: false
   }

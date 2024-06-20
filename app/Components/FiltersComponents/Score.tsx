@@ -14,7 +14,7 @@ interface ScoreProps {
 const Score = ({ setFilters, filters }: ScoreProps) => {
 
     const [sliderValues, setSliderValues] = useState([filters.score[0], filters.score[1]]);
-    const min = 0;
+    const min = -10;
     const max = 100;
 
     const handleSliderChange = (values: any) => {

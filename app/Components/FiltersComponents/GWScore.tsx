@@ -17,7 +17,7 @@ const GWScore = ({ setFilters, filters }: GWScoreProps) => {
 
     const [sliderValues, setSliderValues] = useState([filters.gw_score[0], filters.gw_score[1]]);
     // const [check, setCheck] = useState(filters.hide_gw_na);
-    const min = 0;
+    const min = -10;
     const max = 100;
 
     const gwDisplay = useGWStore(state => state.display)

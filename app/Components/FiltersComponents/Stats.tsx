@@ -19,7 +19,7 @@ const Stats = ({ setFilters, filters }: StatsProps) => {
     const [impactSliderValues, setImpactSliderValues] = useState([filters.stats.impact[0], filters.stats.impact[1]]);
     const [skillsSliderValues, setSkillsSliderValues] = useState([filters.stats.skills[0], filters.stats.skills[1]]);
 
-    const min = 0
+    const min = -10
     const max = 100
 
     const handleSliderChange = (values: any, stat: string) => {
