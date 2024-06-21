@@ -258,7 +258,7 @@ const Cards = ({ data, filters }: CardsProps) => {
             if (isFiltered(cards[card])) {
                 count++
             } else {
-                // console.log("not filtered", cards[card])
+                console.log("not filtered", cards[card])
             }
             total++
         }

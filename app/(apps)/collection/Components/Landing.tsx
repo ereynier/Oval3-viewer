@@ -3,7 +3,6 @@
 import React, { Suspense } from "react";
 import Cards from "./Cards";
 import Searcher from "./Searcher";
-import Filters from "./Filters";
 import Sorter from "./Sorter";
 import { emptyFilters } from "@/utils/emptyFilters";
 import FiltersHandler from "./FiltersHandler";
