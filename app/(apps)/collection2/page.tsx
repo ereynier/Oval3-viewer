@@ -1,6 +1,6 @@
 import Error from "next/error";
-import Landing from "./Components/Landing";
 import { redirect } from "next/navigation";
+import Collection from "./Components/Collection"
 
 export default function Home() {
   
@@ -8,7 +8,7 @@ export default function Home() {
 
   return (
     <div>
-      <Landing />
+      <Collection />
     </div>
   );
 }

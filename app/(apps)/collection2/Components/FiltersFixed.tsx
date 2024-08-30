@@ -33,6 +33,7 @@ import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { usePinnedStore } from '@/utils/store/PinnedStore'
 import { useFilterOpenStore } from '@/utils/store/FilterOpenStore'
+import Owner from './FiltersComponents/Owner'
 
 interface FiltersProps {
     filters: any
@@ -120,7 +121,10 @@ const FiltersFixed = ({ setFilters, filters }: FiltersProps) => {
                                 <Switch id="pinned" checked={applyFilterPin} onCheckedChange={(v) => setApplyFilterPin(v)} />
                                 <Label htmlFor="pinned" className='whitespace-nowrap'>Apply filters to pinned</Label>
                             </div>
-
+                            <CollapseProvider name="Owner" isOpen={openStates['Owner']} onOpenChange={(isOpen: boolean) => setOpenStates('Owner', isOpen)}>
+                                <Owner filters={tmpFilters} setFilters={setTmpFilters} />
+                            </CollapseProvider>
+                            <Separator />
                             <CollapseProvider name="Name" isOpen={openStates['Name']} onOpenChange={(isOpen: boolean) => setOpenStates('Name', isOpen)}>
                                 <Name filters={tmpFilters} setFilters={setTmpFilters} />
                             </CollapseProvider>

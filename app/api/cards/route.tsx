@@ -2,11 +2,9 @@ import { NextResponse } from "next/server";
 import { client } from "@/utils/client";
 import { isAddress } from "viem";
 import Oval3Abi from "@/utils/abi/Oval3.abi.json";
-import owners from "@/utils/datas/owners.json";
 import { prisma } from "@/lib/prsima";
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS
-const DATA_SOURCE = process.env.DATA_SOURCE || "JSON"
 
 export async function POST(req: Request): Promise<NextResponse> {
 
@@ -44,37 +42,36 @@ export async function POST(req: Request): Promise<NextResponse> {
     let tokens = [];
     let block = 0;
 
-    if (DATA_SOURCE != "DB") {
-        // via JSON
-        tokens = owners["owners"][address as keyof typeof owners["owners"]]
-        block = owners["block"]
-    } else {
-        // via DB
-        try {
-            const owner = await prisma.owners.findUnique({
-                where: {
-                    address: address
-                }
-            })
-            if (!owner) {
-                return NextResponse.json({ success: true, status: 200, data: [] }, { status: 200 });
+    // via DB
+    try {
+        const blockData = await prisma.blocks.findFirst({
+            orderBy: {
+                blockNumber: "desc"
             }
-            tokens = owner.nfts
-            const blockData = await prisma.blocks.findFirst({
-                orderBy: {
-                    blockNumber: "desc"
-                }
-            })
-            if (blockData) {
-                block = blockData.blockNumber
-            }
-        } catch (error) {
-            console.log(error)
-            return NextResponse.json({ success: false, status: 500, error: "Internal server error, please try again later" }, { status: 500 });
+        })
+        if (blockData) {
+            block = blockData.blockNumber
         }
+
+        const cards = await prisma.card.findMany({
+            where: {
+                owner: address,
+                opta_id: {
+                    not: null
+                }
+            },
+            orderBy: {
+                tokenId: "asc"
+            }
+        })
+        tokens = cards.map(card => card.tokenId)
+
+    } catch (error) {
+        console.log(error)
+        return NextResponse.json({ success: false, status: 500, error: "Internal server error, please try again later" }, { status: 500 });
     }
 
-    tokens = Array.from(new Set(tokens))
+    // tokens = Array.from(new Set(tokens))
 
 
     const data = { "tokens": tokens, "block": block }

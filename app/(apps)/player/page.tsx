@@ -1,14 +1,13 @@
-import Error from "next/error";
-import Landing from "./Components/Landing";
 import { redirect } from "next/navigation";
+import Player from "./Components/Player";
 
 export default function Home() {
   
-  // redirect("/");
+//   redirect("/");
 
   return (
     <div>
-      <Landing />
+      <Player  />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 // This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// learn more about it in the docs https://pris.ly/d/prisma-schema
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
@@ -33,4 +33,63 @@ model Feedback {
   updatedAt DateTime @updatedAt
 
   @@map("feedbacks")
+}
+
+model Card {
+  owner             String
+  rarity            String?
+  tokenId           String   @id @unique
+  serial_Number     Decimal?
+  max_serial_Number Decimal?
+  player            Player?  @relation(fields: [opta_id], references: [opta_id])
+  opta_id           String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  academy           Boolean?
+  age               Int?
+  clubName          String?
+  clubCode          String?
+  competition       String?
+  name              String?
+  image             String?
+  international     Boolean?
+  nationality       String?
+  position          String?
+  season            String?
+}
+
+model Player {
+  opta_id              String   @id @unique
+  appearances          Int?
+  attack               Decimal?
+  defense              Decimal?
+  evolution            Decimal?
+  impact               Decimal?
+  last_scoring         Decimal?
+  minutes_played_total Decimal?
+  red_cards            Int?
+  scoring              Decimal?
+  skills               Decimal?
+  strength             Decimal?
+  tries                Int?
+  yellow_cards         Int?
+  nb_games             Game[]
+  Card                 Card[]
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Game {
+  id             String   @id @unique @default(uuid())
+  attack         Decimal?
+  defense        Decimal?
+  game_date      String?
+  impact         Decimal?
+  metadata_total Decimal?
+  skills         Decimal?
+  strength       Decimal?
+  Player         Player   @relation(fields: [playerOpta_id], references: [opta_id])
+  playerOpta_id  String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

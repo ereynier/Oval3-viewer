@@ -10,6 +10,6 @@ type OrderStore = {
 export const useOrderStore = create<OrderStore>((set) => ({
     order: "asc",
     toggleOrder: () => set((state) => ({ order: state.order === "asc" ? "desc" : "asc" })),
-    sortBy: "id",
+    sortBy: "tokenId",
     setSortBy: (value) => set({ sortBy: value }),
 }))
