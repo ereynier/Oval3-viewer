@@ -233,6 +233,10 @@ const Cards = ({ data, filters }: CardsProps) => {
         if (playerCountry && !filters.countries[playerCountry.name]) {
             return false
         }
+        // Season
+        if (!filters.season[card.additional.Card.season]) {
+            return false
+        }
         // Game Week Score
         const gwScore = getGWScore(card.stats.nb_games, gwNum)
         if (gwScore !== "N/A") {

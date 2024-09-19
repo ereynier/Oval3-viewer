@@ -53,5 +53,10 @@ export const emptyFilters = {
     },
     gw_score: [-10, 100],
     hide_gw_na: false,
-    only_pinned: false
+    only_pinned: false,
+    season: {
+      "2022/23": true,
+      "2023/24": true,
+      "2024/25": true,
+    }
   }

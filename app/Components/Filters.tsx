@@ -32,6 +32,7 @@ import { useCollapsibleStateStore } from '@/utils/store/CollapsibleStateStore'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { usePinnedStore } from '@/utils/store/PinnedStore'
+import Season from './FiltersComponents/Season'
 
 interface FiltersProps {
     filters: any
@@ -143,6 +144,10 @@ const Filters = ({ setFilters, filters }: FiltersProps) => {
                         <Separator />
                         <CollapseProvider name="Nationality" isOpen={openStates['Nationality']} onOpenChange={(isOpen: boolean) => setOpenStates('Nationality', isOpen)}>
                             <Countries filters={tmpFilters} setFilters={setTmpFilters} />
+                        </CollapseProvider>
+                        <Separator />
+                        <CollapseProvider name="Season" isOpen={openStates['Season']} onOpenChange={(isOpen: boolean) => setOpenStates('Season', isOpen)}>
+                            <Season filters={tmpFilters} setFilters={setTmpFilters} />
                         </CollapseProvider>
                         <Separator />
                         <CollapseProvider name="Game Week Score" isOpen={openStates['GWScore']} onOpenChange={(isOpen: boolean) => setOpenStates('GWScore', isOpen)}>

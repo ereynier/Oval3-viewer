@@ -82,9 +82,11 @@ const Card = ({ metadata, additionals, stats }: CardProps) => {
                 onError={() => setImgSrc("/images/card-placeholder.webp")}
               />
             </CardItem>
+            {Number(metadata?.token) < 104768 ? ( // 104768 is the first token of the new cards 2024/25
             <CardItem translateZ={"130"} className='absolute top-0 right-0 h-full w-1/4 opacity-0 group-hover/card:opacity-90'>
               <Image className='w-fit h-full object-fill' src={`https://marketplace.oval3.game/img/labels/${String(additionals?.Card.rarity).toLowerCase().replace(" ", "")}.png`} alt="rarity" height="450" width="450" />
             </CardItem>
+            ) : null}
             <ScoreCardItem additionals={additionals} stats={stats} />
           </div>
           <PinCardItem id={additionals?.Card.tokenId} />
