@@ -42,7 +42,7 @@
     <a href="https://github.com/ereynier/Oval3-viewer"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://oval3viewer.ereynier.me">View Website</a>
+    <a href="https://oval3viewer.estebanr.fr">View Website</a>
     ·
     <a href="https://github.com/ereynier/Oval3-viewer/issues">Report Bug</a>
     ·
@@ -83,7 +83,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://oval3viewer.ereynier.me)
+[![Product Name Screen Shot][product-screenshot]](https://oval3viewer.estebanr.fr)
 
 The web app is a simple way to explore the Oval3 cards by their owners. You can filter the cards by their stats, and see the cards' details by clicking on them. It use a JSON file to store the cards and owners datas created by the scripts in the `./scripts` folder. Some datas can be wrong or missing due to the way the scripts are working. You can find a further explanation in this article: [English](https://ereynier.medium.com/oval3-viewer-c7551edd20ff) / [French](https://ereynier.medium.com/8ebad02c0793).
 
@@ -215,7 +215,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Estéban Reynier - [@EstebanReynier](https://twitter.com/EstebanReynier) - esteban@ereynier.me
+Estéban Reynier - [@EstebanReynier](https://twitter.com/EstebanReynier) - ereynier.42@gmail.com
 
 Project Link: [https://github.com/ereynier/Oval3-viewer](https://github.com/ereynier/Oval3-viewer)
 

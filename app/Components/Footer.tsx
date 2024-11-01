@@ -14,7 +14,7 @@ const Footer = () => {
                 <div className="flex flex-wrap justify-center">
                     <ul className="flex flex-wrap gap-4 items-center justify-center whitespace-nowrap">
                         <li><Link href={"https://www.oval3.game/"} target='_blank' className='text-foreground hover:underline'>Oval3</Link></li>
-                        <li><Link href={"https://www.ereynier.me/contact"} target="_blank" className='text-foreground hover:underline'>Contact</Link></li>
+                        <li><Link href={"https://dev.estebanr.fr/#contact"} target="_blank" className='text-foreground hover:underline'>Contact</Link></li>
                         <li><Link href={"https://github.com/ereynier/Oval3-viewer"} target="_blank" className='text-foreground hover:underline'>Source</Link></li>
                     </ul>
                 </div>
