@@ -2,6 +2,8 @@ import Link from "next/link";
 import FeedbacksTable from "./components/FeedbacksTable";
 import { HomeIcon } from "lucide-react";
 
+export const revalidate = 300;
+
 export default function Feedbacks() {
   return (
     <div className="">
