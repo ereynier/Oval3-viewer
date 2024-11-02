@@ -15,8 +15,14 @@ import { MessageCircleQuestion } from 'lucide-react'
 
 const FeedbacksTable = async () => {
 
-    const feedbacks = await prisma.feedbacks.findMany()
-    console.log(feedbacks)
+    let feedbacks = await prisma.feedback.findMany()
+
+    feedbacks = feedbacks.sort((a, b) => {
+        if (a.createdAt > b.createdAt) {
+            return 1
+        }
+        return -1
+    })
 
     return (
         <div className='mx-4 md:mx-20 my-10 backdrop-blur-sm border-2'>
@@ -34,7 +40,11 @@ const FeedbacksTable = async () => {
                         <TableRow key={feedback.id}>
                             <TableCell>{feedback.type.toUpperCase()}</TableCell>
                             <TableCell className='min-w-60'>{feedback.message}</TableCell>
-                            <TableCell className='text-right'><MessageCircleQuestion className='w-5 h-5' /></TableCell>
+                            {feedback.response ? (
+                                <TableCell className='text-right'>
+                                    <MessageCircleQuestion className='w-5 h-5' />
+                                </TableCell>
+                            ) : (<div />)}
                         </TableRow>
                     ))}
                 </TableBody>
