@@ -10,7 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { MessageCircleQuestion } from 'lucide-react'
+import DialogResponse from './DialogResponse'
 
 
 const FeedbacksTable = async () => {
@@ -26,7 +26,7 @@ const FeedbacksTable = async () => {
 
     return (
         <div className='mx-4 md:mx-20 my-10 backdrop-blur-sm border-2'>
-            <Table className=''>
+            <Table>
                 {/* <TableCaption>Feedbacks</TableCaption> */}
                 <TableHeader>
                     <TableRow>
@@ -42,9 +42,9 @@ const FeedbacksTable = async () => {
                             <TableCell className='min-w-60'>{feedback.message}</TableCell>
                             {feedback.response ? (
                                 <TableCell className='text-right'>
-                                    <MessageCircleQuestion className='w-5 h-5' />
+                                    <DialogResponse response={feedback.response} question={feedback.message}/>
                                 </TableCell>
-                            ) : (<div />)}
+                            ) : (<TableCell />)}
                         </TableRow>
                     ))}
                 </TableBody>

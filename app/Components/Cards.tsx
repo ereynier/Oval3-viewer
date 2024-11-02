@@ -60,6 +60,9 @@ const Cards = ({ data, filters }: CardsProps) => {
             const results = [];
 
             for (let i = 0; i < data.tokens.length; i += batchSize) {
+                if (i > 400) {
+                    await new Promise(r => setTimeout(r, 5000));
+                }
                 const batch = data.tokens.slice(i, i + batchSize);
                 const promises = batch.map(async (item: any) => {
                     const res1 = await fetch(`/api/metadata/${item}`);
@@ -69,36 +72,46 @@ const Cards = ({ data, filters }: CardsProps) => {
                         return;
                     }
 
-                    const res2 = await fetch("https://api.oval3.game/graphql/", {
-                        "credentials": "omit",
-                        "headers": {
-                            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0",
-                            "Accept": "*/*",
-                            "Accept-Language": "en-US,en;q=0.5",
-                            "content-type": "application/json",
-                            "apollographql-client-name": "era2140-oval3",
-                            "apollographql-client-version": "0.0.1",
-                            "Access-Control-Allow-Origin": "*",
-                            "Sec-Fetch-Dest": "empty",
-                            "Sec-Fetch-Mode": "cors",
-                            "Sec-Fetch-Site": "same-site"
-                        },
-                        "referrer": "https://marketplace.oval3.game/",
-                        "body": "{\"operationName\":\"findCard\",\"variables\":{\"tokenId\":\"" + String(item) + "\",\"similarPlayer\":true},\"query\":\"query findCard($tokenId: String!, $similarPlayer: Boolean) {\\n  Card(tokenId: $tokenId, similarCard: $similarPlayer) {\\n    tokenId\\n    rarity\\n    owner {\\n      address\\n    }\\n    edition\\n    international\\n    academy\\n    similarPlayers {\\n      image\\n      tokenId\\n    }\\n    optaId\\n    season\\n    competition\\n    club {\\n      name\\n      clubCode\\n    }\\n    bidCount\\n    score\\n    image\\n    firstname\\n    lastname\\n    position\\n    age\\n    nationality\\n    listingStatus\\n    amount\\n    endTime\\n  }\\n}\"}",
-                        "method": "POST",
-                        "mode": "cors"
-                    });
-                    const additional = await res2.json();
-                    if (!additional || additional.errors){
-                        console.log("error fetching additional", additional)
-                        return;
+                    let additional;
+                    try {
+                        const res2 = await fetch("https://api.oval3.game/graphql/", {
+                            "credentials": "omit",
+                            "headers": {
+                                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0",
+                                "Accept": "*/*",
+                                "Accept-Language": "en-US,en;q=0.5",
+                                "content-type": "application/json",
+                                "apollographql-client-name": "era2140-oval3",
+                                "apollographql-client-version": "0.0.1",
+                                "Access-Control-Allow-Origin": "*",
+                                "Sec-Fetch-Dest": "empty",
+                                "Sec-Fetch-Mode": "cors",
+                                "Sec-Fetch-Site": "same-site"
+                            },
+                            "referrer": "https://marketplace.oval3.game/",
+                            "body": "{\"operationName\":\"findCard\",\"variables\":{\"tokenId\":\"" + String(item) + "\",\"similarPlayer\":true},\"query\":\"query findCard($tokenId: String!, $similarPlayer: Boolean) {\\n  Card(tokenId: $tokenId, similarCard: $similarPlayer) {\\n    tokenId\\n    rarity\\n    owner {\\n      address\\n    }\\n    edition\\n    international\\n    academy\\n    similarPlayers {\\n      image\\n      tokenId\\n    }\\n    optaId\\n    season\\n    competition\\n    club {\\n      name\\n      clubCode\\n    }\\n    bidCount\\n    score\\n    image\\n    firstname\\n    lastname\\n    position\\n    age\\n    nationality\\n    listingStatus\\n    amount\\n    endTime\\n  }\\n}\"}",
+                            "method": "POST",
+                            "mode": "cors"
+                        });
+                        additional = await res2.json();
+                        if (!additional || additional.errors) {
+                            console.log("error fetching additional", additional)
+                            return;
+                        }
+                    } catch (error) {
+                        console.log("error fetching additional", error)
                     }
-
-                    const res3 = await fetch(`https://score.oval3.game/api/scoring/player/${additional.data.Card.optaId}`);
-                    const stats = await res3.json();
-                    if (!stats || stats.error) {
-                        console.log("error fetching stats", stats)
-                        return;
+                    
+                    let stats
+                    try {
+                        const res3 = await fetch(`https://score.oval3.game/api/scoring/player/${additional.data.Card.optaId}`);
+                        stats = await res3.json();
+                        if (!stats || stats.error) {
+                            console.log("error fetching stats", stats)
+                            return;
+                        }
+                    } catch (error) {
+                        console.log("error fetching stats", error)
                     }
 
                     return {

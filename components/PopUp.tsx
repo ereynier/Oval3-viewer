@@ -13,11 +13,13 @@ import {
 import Image from 'next/image'
 import { Checkbox } from './ui/checkbox'
 import { Label } from './ui/label'
+import { Button } from './ui/button'
+import Link from 'next/link'
 
 
 const PopUp = () => {
 
-    const [showPopUp, setshowPopUp] = useLocalStorage<boolean>("showPopUpFeedback", true)
+    const [showPopUp, setshowPopUp] = useLocalStorage<boolean>("showPopUpFeedbackPage", true)
     const [open, setOpen] = React.useState<boolean>(false)
     const [checked, setChecked] = React.useState<boolean>(false)
 
@@ -42,10 +44,15 @@ const PopUp = () => {
                 <DialogHeader>
                     <DialogTitle>New feedback button!</DialogTitle>
                     <DialogDescription>
-                        Give me your feedback with the new feedback button!
+                        Nouvelle page de feedbacks disponible!
+                        <Button variant='link' asChild>
+                            <Link href="/feedbacks">
+                                Cliquez ici pour y accéder
+                            </Link>
+                        </Button>
                     </DialogDescription>
                 </DialogHeader>
-                <Image src="/images/feedback.png" alt="feedback" width={500} height={500} />
+                {/* <Image src="/images/feedback.png" alt="feedback" width={500} height={500} /> */}
                 <div className='flex flex-row items-center justify-start gap-2'>
                     <Checkbox checked={checked} onCheckedChange={() => setChecked(!checked)} />
                     <Label>Don't show this again</Label>

@@ -23,6 +23,7 @@ import {
 import { cn } from "@/lib/utils"
 import { useToast } from './ui/use-toast'
 import { Loader2 } from 'lucide-react'
+import Link from 'next/link'
 
 interface FeedbackButtonProps {
     className?: string
@@ -127,6 +128,11 @@ const FeedbackButton = ({ className }: FeedbackButtonProps) => {
                     <Textarea required onChange={(e) => setFeedbackMessage(e.target.value)} placeholder="Votre message" value={feedbackMessage} />
                     <Button disabled={loading} type='submit' className='mt-4'>{loading ? <Loader2 className='animate-spin' /> : "Envoyer"}</Button>
                 </form>
+                <Button size={'sm'} variant='link' asChild className='w-fit h-fit' onClick={() => setOpen(false)}>
+                    <Link href="/feedbacks" className='text-sm'>
+                        Voir les feedbacks
+                    </Link>
+                </Button>
             </DialogContent>
         </Dialog>
 
