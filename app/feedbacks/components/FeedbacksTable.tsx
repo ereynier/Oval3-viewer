@@ -15,7 +15,7 @@ import { MessageCircleQuestion } from 'lucide-react'
 
 const FeedbacksTable = async () => {
 
-    const feedbacks = await prisma.feedback.findMany()
+    const feedbacks = await prisma.feedbacks.findMany()
     console.log(feedbacks)
 
     return (
