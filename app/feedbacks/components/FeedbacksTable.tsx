@@ -38,8 +38,8 @@ const FeedbacksTable = async () => {
                 <TableBody>
                     {feedbacks.map((feedback) => (
                         <TableRow key={feedback.id}>
-                            <TableCell>{feedback.type.toUpperCase()}</TableCell>
-                            <TableCell className='min-w-60'>{feedback.message}</TableCell>
+                            <TableCell className='text-ellipsis overflow-hidden sm:max-w-none max-w-2'>{feedback.type.toUpperCase()}</TableCell>
+                            <TableCell className='text-ellipsis overflow-hidden sm:max-w-none line-clamp-3'>{feedback.message}</TableCell>
                             {feedback.response ? (
                                 <TableCell className='text-right'>
                                     <DialogResponse response={feedback.response} question={feedback.message}/>
