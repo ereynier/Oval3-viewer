@@ -64,7 +64,7 @@ const Landing = () => {
             </p>
           </div>
         )}
-        <p className="fixed text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-green-200 to-green-500 bottom-1 right-3 -z-5 ">beta</p>
+        {/* <p className="fixed text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-green-200 to-green-500 bottom-1 right-3 -z-5 ">beta</p> */}
         <p className="absolute text-xs sm:text-sm italic text-foreground opacity-70 top-1">{`block: ${data ? `${data.block}` : ""}`}</p>
       </div>
     </div>

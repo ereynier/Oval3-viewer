@@ -307,7 +307,7 @@ const Cards = ({ data, filters }: CardsProps) => {
                             alt={"empty card"}
                         />
                         <RugbyLoader />
-                        <p className='fixed text-xs font-semibold left-1 bottom-0 z-10 text-gray-600'>{nbFetched} / {data.tokens.length}</p>
+                        <p className='fixed text-xs font-semibold right-1 bottom-0 z-10 text-gray-600'>{nbFetched} / {data.tokens.length}</p>
                     </div>
                 )}
             </div>
