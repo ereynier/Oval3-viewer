@@ -32,7 +32,7 @@ const FeedbacksTable = async () => {
                     <TableRow>
                         <TableHead className="w-[100px]">Type</TableHead>
                         <TableHead>Message</TableHead>
-                        <TableHead className='text-right'>Reponse</TableHead>
+                        <TableHead className='text-right'>Answer</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
