@@ -12,6 +12,7 @@ import { getGWScore } from '@/utils/getGWScore';
 import { useGWStore } from '@/utils/store/GWStore';
 import { usePinnedStore } from '@/utils/store/PinnedStore';
 import { useFilterOpenStore } from '@/utils/store/FilterOpenStore';
+import { useGridToggleStore } from '@/utils/store/GridToggleStore';
 
 interface CardsProps {
     data: any
@@ -42,6 +43,7 @@ const Cards = ({ data, filters }: CardsProps) => {
     const onlyPinned = usePinnedStore(state => state.onlyPinned)
     const applyFilterPin = usePinnedStore(state => state.applyFilters)
     const filterOpen = useFilterOpenStore(state => state.open);
+    const grid = useGridToggleStore(state => state.grid);
 
     const prevDataRef = useRef();
     React.useEffect(() => {
@@ -288,7 +290,7 @@ const Cards = ({ data, filters }: CardsProps) => {
 
     return (
         <div className='w-full h-full mt-6'>
-            <div className={`w-full h-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-12 ${filterOpen ? "md:px-4 xl:px-24 md:gap-4 lg:gap-8 xl:gap-12" : "md:px-24 xl:px-48 md:gap-12"} py-4 px-8 sm:px-12 md:px-24 xl:px-48 `}>
+            <div className={`w-full h-full grid ${grid == "3" ? "grid-cols-3" : "grid-cols-1"} sm:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-12 ${filterOpen ? "md:px-4 xl:px-24 md:gap-4 lg:gap-8 xl:gap-12" : "md:px-24 xl:px-48 md:gap-12"} py-4 px-8 sm:px-12 md:px-24 xl:px-48 `}>
                 {data && data.tokens && sortData(Object.values(cards)).map((card: any, index: number) => (
                     card = card.metadata.token,
                     (cards[card] &&
