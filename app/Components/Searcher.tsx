@@ -9,6 +9,7 @@ import { isAddress } from 'viem'
 import { X } from 'lucide-react'
 import { useLocalStorage } from '@/lib/hooks'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useAddressStore } from '@/utils/store/AddressStore'
 
 
 interface SearcherProps {
@@ -18,7 +19,7 @@ interface SearcherProps {
 
 const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
 
-    const [address, setAddress] = React.useState<string>("")
+    const [address, setAddress] = useAddressStore(state => [state.address, state.setAddress])
     const [loading, setLoading] = React.useState<boolean>(false)
     const [error, setError] = React.useState<string>("")
     const [pastInputs, setPastInputs] = useLocalStorage<string[]>("pastInputs", [])
