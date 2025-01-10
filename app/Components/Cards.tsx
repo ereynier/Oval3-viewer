@@ -44,6 +44,7 @@ const Cards = ({ data, filters }: CardsProps) => {
     const applyFilterPin = usePinnedStore(state => state.applyFilters)
     const filterOpen = useFilterOpenStore(state => state.open);
     const grid = useGridToggleStore(state => state.grid);
+    const [controller, setController] = React.useState<AbortController>(new AbortController());
 
     const prevDataRef = useRef();
     React.useEffect(() => {
@@ -51,10 +52,12 @@ const Cards = ({ data, filters }: CardsProps) => {
         if (!data || _.isEqual(data, prevDataRef.current)) return;
         setNbCard(data.tokens.length);
         prevDataRef.current = data;
+        let currentCards = {}
+        controller.abort();
         setCards({})
         console.log("fetching cards", data.tokens.length)
 
-        const fetchData = async () => {
+        const fetchData = async (signal: AbortSignal) => {
             setLoading(true);
             setNbFetched(0);
 
@@ -62,6 +65,13 @@ const Cards = ({ data, filters }: CardsProps) => {
             const results = [];
 
             for (let i = 0; i < data.tokens.length; i += batchSize) {
+
+                if (signal.aborted) {
+                    console.log("Fetch aborted");
+                    setLoading(false);
+                    return;
+                }
+
                 if (i > 400) {
                     await new Promise(r => setTimeout(r, 5000));
                 }
@@ -103,7 +113,7 @@ const Cards = ({ data, filters }: CardsProps) => {
                     } catch (error) {
                         console.log("error fetching additional", error)
                     }
-                    
+
                     let stats
                     try {
                         const res3 = await fetch(`https://score.oval3.game/api/scoring/player/${additional.data.Card.optaId}`);
@@ -128,14 +138,20 @@ const Cards = ({ data, filters }: CardsProps) => {
                 const batchResults = await Promise.all(promises);
                 results.push(...batchResults);
                 const newCards = results.reduce((acc, result) => ({ ...acc, ...result }), {});
-                setCards((prev: any) => ({ ...prev, ...newCards }));
+                // setCards((prev: any) => ({ ...prev, ...newCards }));
+                currentCards = { ...currentCards, ...newCards };
+                setCards(currentCards);
                 setNbFetched((prev) => prev + batchSize);
             }
 
             setLoading(false);
         };
 
-        fetchData();
+        const c_controller = new AbortController();
+        const signal = c_controller.signal;
+        setController(c_controller);
+
+        fetchData(signal);
 
     }, [data]);
 
