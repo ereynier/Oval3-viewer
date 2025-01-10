@@ -5,16 +5,16 @@ import Cards from "./Cards";
 import Searcher from "./Searcher";
 import Filters from "./Filters";
 import Sorter from "./Sorter";
-import { emptyFilters } from "@/utils/emptyFilters";
 import FiltersHandler from "./FiltersHandler";
 import { useFilterOpenStore } from "@/utils/store/FilterOpenStore";
+import { useFiltersStore } from "@/utils/store/FiltersStore";
 
 
 
 const Landing = () => {
 
   const [data, setData] = React.useState<{ tokens: number[], block: number } | null>(null); // data from the JSON or DB (owners, tokens ids, last block)
-  const [filters, setFilters] = React.useState<any>({ ...emptyFilters }); // filters for the cards
+  const [filters, setFilters] = useFiltersStore(state => [state.filters, state.setFilters]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const filterOpen = useFilterOpenStore(state => state.open);
 
@@ -22,7 +22,7 @@ const Landing = () => {
 
   return (
     <div className="flex flex-row items-start justify-center min-h-screen h-full w-full gap-2">
-      <FiltersHandler setFilters={setFilters} filters={filters} />
+      
       <div className={`${filterOpen ? "md:ml-80" : ""} flex flex-col items-center justify-start min-h-screen h-full w-full py-2 gap-2`}>
         <div className="flex flex-col items-center sm:items-start justify-center gap-2 w-full max-w-4xl">
           <Suspense>

@@ -7,6 +7,7 @@ import { ThemeSwitcher } from "./Components/ThemeSwitcher";
 import Footer from "./Components/Footer";
 import FeedbackButton from "@/components/FeedbackButton";
 import PopUp from "@/components/PopUp";
+import Navbar from "./Components/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,10 +27,8 @@ export default function RootLayout({
         <div className="h-full w-full bg-background dark:bg-dot-white/[0.3] bg-dot-black/[0.3] relative flex items-center justify-center">
           <div className="w-full h-full z-10">
             <ThemeProvider attribute='class'>
+              <Navbar />
               {children}
-              <div className="absolute top-2 right-5">
-                <ThemeSwitcher />
-              </div>
               <FeedbackButton className="fixed bottom-2 left-2 z-10" />
               <PopUp />
               <Footer />
