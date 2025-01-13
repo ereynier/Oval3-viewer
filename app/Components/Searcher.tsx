@@ -10,6 +10,7 @@ import { X } from 'lucide-react'
 import { useLocalStorage } from '@/lib/hooks'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useAddressStore } from '@/utils/store/AddressStore'
+import { useAccount } from 'wagmi'
 
 
 interface SearcherProps {
@@ -24,6 +25,7 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
     const [error, setError] = React.useState<string>("")
     const [pastInputs, setPastInputs] = useLocalStorage<string[]>("pastInputs", [])
     const { toast } = useToast()
+    const { address: walletAddress } = useAccount()
 
     const searchParams = useSearchParams()
     const router = useRouter()
@@ -161,6 +163,13 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
             return `${address.slice(0, 2)}...`
         }
     }
+
+    useEffect(() => {
+        if (walletAddress) {
+            setAddress(walletAddress)
+            handleSubmit(walletAddress)
+        }
+    }, [walletAddress])
 
     return (
         <div className="flex flex-col items-center justify-start w-full py-2">
