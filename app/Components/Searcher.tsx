@@ -9,6 +9,8 @@ import { isAddress } from 'viem'
 import { X } from 'lucide-react'
 import { useLocalStorage } from '@/lib/hooks'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useAddressStore } from '@/utils/store/AddressStore'
+import { useAccount } from 'wagmi'
 
 
 interface SearcherProps {
@@ -18,11 +20,12 @@ interface SearcherProps {
 
 const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
 
-    const [address, setAddress] = React.useState<string>("")
+    const [address, setAddress] = useAddressStore(state => [state.address, state.setAddress])
     const [loading, setLoading] = React.useState<boolean>(false)
     const [error, setError] = React.useState<string>("")
     const [pastInputs, setPastInputs] = useLocalStorage<string[]>("pastInputs", [])
     const { toast } = useToast()
+    const { address: walletAddress } = useAccount()
 
     const searchParams = useSearchParams()
     const router = useRouter()
@@ -49,6 +52,7 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
     useEffect(() => {
         if (search) {
             setAddress(search)
+            handleSubmit(search)
         }
     }, [search])
 
@@ -81,16 +85,17 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
         localStorage.setItem("pastInputs", JSON.stringify(pastInputs.filter(input => input !== address)))
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+    const handleSubmit = (addr: string | undefined = undefined) => {
+        const currentAddress: string = addr || address
+        console.log("currentAddress:", currentAddress)
         setOpen(false)
         if (loading) return
-        if (!address) {
+        if (!currentAddress) {
             setData(undefined)
             router.push(pathname)
             return
         }
-        if (!isAddress(address)) {
+        if (!isAddress(currentAddress)) {
             setError("Invalid address")
             toast({
                 title: "An error occurred.",
@@ -103,21 +108,21 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
         setLoading(true)
         setIsLoading(true)
         setError("")
-        console.log("address:", address)
+        console.log("address:", currentAddress)
         // add to past inputs
-        if (!pastInputs.includes(address)) {
-            setPastInputs([...pastInputs, address])
-            localStorage.setItem("pastInputs", JSON.stringify([...pastInputs, address]))
+        if (!pastInputs.includes(currentAddress)) {
+            setPastInputs([...pastInputs, currentAddress])
+            localStorage.setItem("pastInputs", JSON.stringify([...pastInputs, currentAddress]))
         }
         // update url
-        router.push(pathname + '?' + createQueryString('address', address))
+        router.push(pathname + '?' + createQueryString('address', currentAddress))
         // fetch data
         fetch("/api/cards", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ address })
+            body: JSON.stringify({ address: currentAddress })
         })
             .then(res => res.json())
             .then(data => {
@@ -159,9 +164,16 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
         }
     }
 
+    useEffect(() => {
+        if (walletAddress) {
+            setAddress(walletAddress)
+            handleSubmit(walletAddress)
+        }
+    }, [walletAddress])
+
     return (
         <div className="flex flex-col items-center justify-start w-full py-2">
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 items-end justify-around max-w-4xl mt-2 px-8 w-full">
+            <form className="flex flex-col sm:flex-row gap-2 items-end justify-around max-w-4xl mt-2 px-8 w-full">
                 <div className='relative flex flex-col gap-1 items-start justify-center w-full'>
                     <Label className=''>User address</Label>
                     <Input ref={inputRef} placeholder="0x8a6f..." value={address} onChange={handleChange} onFocusCapture={() => setOpen(true)} />
@@ -178,7 +190,7 @@ const Searcher = ({ setData, setIsLoading }: SearcherProps) => {
                         </div>
                     )}
                 </div>
-                <Button type='submit' disabled={loading} className="w-full sm:w-fit">
+                <Button onClick={() => handleSubmit()} disabled={loading} className="w-full sm:w-fit">
                     {loading ? "Loading..." : "Search"}
                 </Button>
                 {loading && <RugbyLoader />}

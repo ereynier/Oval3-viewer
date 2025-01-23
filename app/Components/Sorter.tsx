@@ -9,12 +9,13 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Button } from '@/components/ui/button'
-import { ArrowDown10, ArrowUp10 } from 'lucide-react'
+import { ArrowDown10, ArrowUp10, Grid3x3, Rows2, Table } from 'lucide-react'
 import { useOrderStore } from '@/utils/store/OrderStore'
 import { useGWStore } from '@/utils/store/GWStore'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import { usePinnedStore } from '@/utils/store/PinnedStore'
+import { useGridToggleStore } from '@/utils/store/GridToggleStore'
 
 
 
@@ -23,6 +24,8 @@ const Sorter = () => {
     const toggleOrder = useOrderStore(state => state.toggleOrder)
     const order = useOrderStore(state => state.order)
     const onlyPinned = usePinnedStore(state => state.onlyPinned)
+    const toggleGrid = useGridToggleStore(state => state.toggleGrid)
+    const grid = useGridToggleStore(state => state.grid)
     const setOnlyPinned = usePinnedStore(state => state.setOnlyPinned)
 
     return (
@@ -56,8 +59,17 @@ const Sorter = () => {
                 </Button>
             </div>
             <div className="flex items-center space-x-2">
-                <Switch id="pinned" checked={onlyPinned} onCheckedChange={(v) => setOnlyPinned(v)}/>
+                <Switch id="pinned" checked={onlyPinned} onCheckedChange={(v) => setOnlyPinned(v)} />
                 <Label htmlFor="pinned" className='whitespace-nowrap'>Pin only</Label>
+            </div>
+            <div className="flex items-center space-x-2 sm:hidden">
+                <Button title='Toogle grid' variant={"ghost"} size={"icon"} onClick={() => toggleGrid()}>
+                    {grid === "1" ?
+                        <Rows2 size={24} />
+                        :
+                        <Table size={24} />
+                    }
+                </Button>
             </div>
         </div>
 

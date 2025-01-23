@@ -86,7 +86,7 @@ const FiltersFixed = ({ setFilters, filters }: FiltersProps) => {
 
     return (
         <>
-            {open ? null : (<div onClick={handleOpen} className='fixed flex flex-row gap-2 hover:bg-secondary rounded-lg w-fit h-10 justify-between p-2 items-center cursor-pointer'>
+            {open ? null : (<div onClick={handleOpen} className=' flex flex-row gap-2 hover:bg-secondary rounded-lg w-fit h-10 justify-between p-2 items-center cursor-pointer'>
                 {/* <div className='flex flex-row gap-2 items-end justify-between w-full'>
                     <p>Filters</p>
                     <p className='text-xs text-muted-foreground'>{nbFilteredCard}/{nbCard}</p>

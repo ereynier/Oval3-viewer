@@ -102,9 +102,9 @@ const FeedbackButton = ({ className }: FeedbackButtonProps) => {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Donnez nous votre avis</DialogTitle>
+                    <DialogTitle>Give us your feedback</DialogTitle>
                     <DialogDescription>
-                        Vous avez une idée, une suggestion ou un problème à nous remonter ? N'hésitez pas à nous en faire part !
+                        You have an idea, a suggestion or a problem to report to us? Don't hesitate to let us know!
                     </DialogDescription>
                 </DialogHeader>
                 <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
@@ -116,8 +116,8 @@ const FeedbackButton = ({ className }: FeedbackButtonProps) => {
                             <SelectValue placeholder="Type" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="amélioration">Amélioration</SelectItem>
-                            <SelectItem value="fonctionnalité">Nouvelle Fonctionnalité</SelectItem>
+                            <SelectItem value="upgrade">Upgrade</SelectItem>
+                            <SelectItem value="feature">Feature</SelectItem>
                             <SelectItem value="bug">Bug</SelectItem>
                         </SelectContent>
                     </Select>
@@ -125,12 +125,12 @@ const FeedbackButton = ({ className }: FeedbackButtonProps) => {
                     <Label>
                         Message <span className='text-red-500'>*</span>
                     </Label>
-                    <Textarea required onChange={(e) => setFeedbackMessage(e.target.value)} placeholder="Votre message" value={feedbackMessage} />
-                    <Button disabled={loading} type='submit' className='mt-4'>{loading ? <Loader2 className='animate-spin' /> : "Envoyer"}</Button>
+                    <Textarea required onChange={(e) => setFeedbackMessage(e.target.value)} placeholder="Your message" value={feedbackMessage} />
+                    <Button disabled={loading} type='submit' className='mt-4'>{loading ? <Loader2 className='animate-spin' /> : "Send"}</Button>
                 </form>
                 <Button size={'sm'} variant='link' asChild className='w-fit h-fit' onClick={() => setOpen(false)}>
                     <Link href="/feedbacks" className='text-sm'>
-                        Voir les feedbacks
+                        Show feedbacks
                     </Link>
                 </Button>
             </DialogContent>

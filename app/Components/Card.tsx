@@ -7,6 +7,7 @@ import { useGWStore } from '@/utils/store/GWStore';
 import { getGWScore } from '@/utils/getGWScore';
 import { usePinnedStore } from '@/utils/store/PinnedStore';
 import { PinIcon } from 'lucide-react';
+import { useGridToggleStore } from '@/utils/store/GridToggleStore';
 
 
 interface ScoreCardItemProps {
@@ -27,6 +28,7 @@ const ScoreCardItem: React.FC<ScoreCardItemProps> = ({ additionals, stats }) => 
 const PinCardItem = ({ id }: { id: string }) => {
   const setPinnedPlayers = usePinnedStore(state => state.setPinnedPlayers)
   const pinnedPlayers = usePinnedStore(state => state.pinnedPlayers)
+  const grid = useGridToggleStore(state => state.grid)
 
   const updatePinned = (id: number) => {
     if (pinnedPlayers.includes(id)) {
@@ -39,7 +41,7 @@ const PinCardItem = ({ id }: { id: string }) => {
   return (
     <CardItem translateZ={"100"} className='absolute top-1 left-1 h-fit w-full z-50 p-2'>
       <button onClick={() => updatePinned(Number(id))} className="p-1 rounded-md">
-        <PinIcon className={`h-7 w-7 ${pinnedPlayers.includes(Number(id)) ? "fill-emerald-500" : "fill-transparent"} stroke-white`} />
+        <PinIcon className={`h-7 w-7 ${grid == "3" ? "hidden" : ""} ${pinnedPlayers.includes(Number(id)) ? "fill-emerald-500" : "fill-transparent"} stroke-white`} />
       </button>
     </CardItem>
   )

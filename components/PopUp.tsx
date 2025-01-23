@@ -44,15 +44,10 @@ const PopUp = () => {
                 <DialogHeader>
                     <DialogTitle>New feedback button!</DialogTitle>
                     <DialogDescription>
-                        Nouvelle page de feedbacks disponible!
-                        <Button variant='link' asChild>
-                            <Link href="/feedbacks">
-                                Cliquez ici pour y accéder
-                            </Link>
-                        </Button>
+                        Click on the new feedback button to give us your feedback on the new features of the application.
                     </DialogDescription>
                 </DialogHeader>
-                {/* <Image src="/images/feedback.png" alt="feedback" width={500} height={500} /> */}
+                <Image src="/images/feedback.png" alt="feedback" width={500} height={500} />
                 <div className='flex flex-row items-center justify-start gap-2'>
                     <Checkbox checked={checked} onCheckedChange={() => setChecked(!checked)} />
                     <Label>Don't show this again</Label>

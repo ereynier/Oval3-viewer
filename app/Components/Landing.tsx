@@ -5,22 +5,24 @@ import Cards from "./Cards";
 import Searcher from "./Searcher";
 import Filters from "./Filters";
 import Sorter from "./Sorter";
-import { emptyFilters } from "@/utils/emptyFilters";
 import FiltersHandler from "./FiltersHandler";
 import { useFilterOpenStore } from "@/utils/store/FilterOpenStore";
+import { useFiltersStore } from "@/utils/store/FiltersStore";
 
 
 
 const Landing = () => {
 
   const [data, setData] = React.useState<{ tokens: number[], block: number } | null>(null); // data from the JSON or DB (owners, tokens ids, last block)
-  const [filters, setFilters] = React.useState<any>({ ...emptyFilters }); // filters for the cards
+  const [filters, setFilters] = useFiltersStore(state => [state.filters, state.setFilters]);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const filterOpen = useFilterOpenStore(state => state.open);
 
+  data?.block ? console.log("block number : ", data?.block) : null;
+
   return (
     <div className="flex flex-row items-start justify-center min-h-screen h-full w-full gap-2">
-      <FiltersHandler setFilters={setFilters} filters={filters} />
+      
       <div className={`${filterOpen ? "md:ml-80" : ""} flex flex-col items-center justify-start min-h-screen h-full w-full py-2 gap-2`}>
         <div className="flex flex-col items-center sm:items-start justify-center gap-2 w-full max-w-4xl">
           <Suspense>
@@ -64,8 +66,8 @@ const Landing = () => {
             </p>
           </div>
         )}
-        <p className="fixed text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-green-200 to-green-500 bottom-1 right-3 -z-5 ">beta</p>
-        <p className="absolute text-xs sm:text-sm italic text-foreground opacity-70 top-1">{`block: ${data ? `${data.block}` : ""}`}</p>
+        {/* <p className="fixed text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-green-200 to-green-500 bottom-1 right-3 -z-5 ">beta</p> */}
+        {/* <p className="absolute text-xs sm:text-sm italic text-foreground opacity-70 top-1">{`block: ${data ? `${data.block}` : ""}`}</p> */}
       </div>
     </div>
   );

@@ -26,7 +26,7 @@ const DialogResponse = ({ response, question }: DialogResponseProps) => {
                         {`Q: ${question}`}
                         <br />
                         <br />
-                        {`R: ${response}`}
+                        {`A: ${response}`}
                     </DialogDescription>
                 </DialogHeader>
             </DialogContent>

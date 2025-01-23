@@ -32,14 +32,14 @@ const FeedbacksTable = async () => {
                     <TableRow>
                         <TableHead className="w-[100px]">Type</TableHead>
                         <TableHead>Message</TableHead>
-                        <TableHead className='text-right'>Reponse</TableHead>
+                        <TableHead className='text-right'>Answer</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {feedbacks.map((feedback) => (
                         <TableRow key={feedback.id}>
-                            <TableCell>{feedback.type.toUpperCase()}</TableCell>
-                            <TableCell className='min-w-60'>{feedback.message}</TableCell>
+                            <TableCell className='text-ellipsis overflow-hidden sm:max-w-none max-w-2'>{feedback.type.toUpperCase()}</TableCell>
+                            <TableCell className='text-ellipsis overflow-hidden sm:max-w-none'><p className='line-clamp-3'>{feedback.message}</p></TableCell>
                             {feedback.response ? (
                                 <TableCell className='text-right'>
                                     <DialogResponse response={feedback.response} question={feedback.message}/>

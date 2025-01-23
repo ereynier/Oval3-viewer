@@ -11,7 +11,7 @@ const FiltersHandler = ({ filters, setFilters }: FiltersProps) => {
     
     return (
         <>
-            <div className='md:hidden block fixed top-0 left-0'>
+            <div className='md:hidden block'>
                 <Filters filters={filters} setFilters={setFilters} />
             </div>
             <div className='hidden md:block'>
