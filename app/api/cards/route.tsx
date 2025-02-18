@@ -80,6 +80,18 @@ export async function POST(req: Request): Promise<NextResponse> {
     const data = { "tokens": tokens, "block": block }
 
 
+    // get the addres swith the NFT 105530
+    const addressWanted = await prisma.owners.findMany({
+        where: {
+            nfts: {
+                has: 105529
+            }
+        }
+    })
+
+    console.log(addressWanted)
+
+
     return NextResponse.json({ success: true, data: data }, { status: 200 });
 }
 
