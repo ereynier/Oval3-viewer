@@ -21,6 +21,9 @@ const queryClient = new QueryClient()
 export const metadata: Metadata = {
   title: "Oval3 Viewer",
   description: "View your Oval3 collection",
+  alternates: {
+    canonical: `https://oval3viewer.estebanr.fr`
+  }
 };
 
 export default function RootLayout({
